@@ -19,7 +19,7 @@ watch(
   () => props.visible,
   (newVal) => {
     isOpen.value = newVal;
-  }
+  },
 );
 
 watch(isOpen, (newVal) => {
@@ -57,7 +57,6 @@ const categories = {
     },
   ],
 };
-
 // Login form state
 const loginEmail = ref("");
 const loginPassword = ref("");
@@ -103,7 +102,7 @@ const register = () => {
   >
     <!-- Modal Konténer -->
     <div
-      class="relative mx-auto w-full max-w-lg rounded-lg border-2 border-amber-400 bg-gray-900 shadow-2xl p-6 transform transition-all duration-300 ease-out"
+      class="relative mx-auto w-full max-w-lg rounded-lg border-2 border-gray-300 bg-gray-900 shadow-2xl p-6 transform transition-all duration-300 ease-out"
       :class="isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'"
     >
       <!-- Modal Fejléc -->
@@ -135,7 +134,7 @@ const register = () => {
       <div class="w-full max-w-md px-2 py-4 sm:px-0 mx-auto">
         <TabGroup>
           <TabList
-            class="flex space-x-1 rounded-xl bg-gray-800/30 p-1 border border-gray-700"
+            class="flex space-x-1 rounded-xl border-amber-400 bg-gray-800/30 p-1 border"
           >
             <Tab
               v-for="category in Object.keys(categories)"
@@ -146,11 +145,11 @@ const register = () => {
             >
               <button
                 :class="[
-                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-300',
                   'focus:outline-none focus:ring-2 focus:ring-amber-400',
                   selected
-                    ? 'bg-amber-400 text-black shadow-md'
-                    : 'text-gray-300 hover:bg-white/4 hover:text-white',
+                    ? 'bg-amber-400 text-black shadow-md transform scale-105'
+                    : 'text-gray-300 hover:bg-white/4 hover:text-white hover:scale-95',
                 ]"
               >
                 {{ category }}
@@ -163,15 +162,16 @@ const register = () => {
               v-for="(posts, idx) in Object.values(categories)"
               :key="idx"
               :class="[
-                'rounded-xl bg-gray-900 p-4 border border-gray-700 text-gray-300',
-                'focus:outline-none focus:ring-2 focus:ring-amber-400',
+                'rounded-xl bg-gray-900 p-4 border border-amber text-gray-300 animation-fadeIn',
+                'focus:outline-none focus:ring-2 ',
               ]"
             >
               <div v-if="idx === 0 && selectedTab === 0">
                 <!-- Login form -->
                 <form @submit.prevent="login" class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-200 mb-1"
+                    <label
+                      class="block ml-3 text-sm font-medium text-gray-200 mb-1"
                       >E-mail</label
                     >
                     <input
@@ -179,12 +179,13 @@ const register = () => {
                       type="email"
                       required
                       placeholder="you@example.com"
-                      class="w-full rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      class="w-7/8 ml-3 rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 hover:bg-gray-700 hover:scale-105 focus:scale-105 focus:shadow-lg focus:shadow-amber-400/50"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-200 mb-1"
+                    <label
+                      class="block ml-3 text-sm font-medium text-gray-200 mb-1"
                       >Jelszó</label
                     >
                     <input
@@ -192,7 +193,7 @@ const register = () => {
                       type="password"
                       required
                       placeholder="••••••••"
-                      class="w-full rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      class="w-7/8 ml-3 rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 hover:bg-gray-700 hover:scale-105 focus:scale-105 focus:shadow-lg focus:shadow-amber-400/50"
                     />
                   </div>
 
@@ -200,13 +201,13 @@ const register = () => {
                     <button
                       type="button"
                       @click="cancel"
-                      class="bg-gray-700 cursor-pointer hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                      class="bg-gray-700 cursor-pointer hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-gray-400/50"
                     >
                       Mégse
                     </button>
                     <button
                       type="submit"
-                      class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+                      class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
                       Bejelentkezés
                     </button>
@@ -218,7 +219,8 @@ const register = () => {
                 <!-- Registration form -->
                 <form @submit.prevent="register" class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-200 mb-1"
+                    <label
+                      class="block ml-3 text-sm font-medium text-gray-200 mb-1"
                       >Teljes név</label
                     >
                     <input
@@ -226,12 +228,13 @@ const register = () => {
                       type="text"
                       required
                       placeholder="Kovács János"
-                      class="w-full rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      class="w-7/8 rounded-xl items-center ml-3 justify-center bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 hover:bg-gray-700 hover:scale-105 focus:scale-105 focus:shadow-lg focus:shadow-amber-400/50"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-200 mb-1"
+                    <label
+                      class="block ml-3 text-sm font-medium text-gray-200 mb-1"
                       >E-mail</label
                     >
                     <input
@@ -239,12 +242,13 @@ const register = () => {
                       type="email"
                       required
                       placeholder="you@example.com"
-                      class="w-full rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      class="w-7/8 ml-3 rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 hover:bg-gray-700 hover:scale-105 focus:scale-105 focus:shadow-lg focus:shadow-amber-400/50"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-200 mb-1"
+                    <label
+                      class="block ml-3 text-sm font-medium text-gray-200 mb-1"
                       >Jelszó</label
                     >
                     <input
@@ -252,12 +256,13 @@ const register = () => {
                       type="password"
                       required
                       placeholder="••••••••"
-                      class="w-full rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      class="w-7/8 ml-3 rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 hover:bg-gray-700 hover:scale-105 focus:scale-105 focus:shadow-lg focus:shadow-amber-400/50"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-200 mb-1"
+                    <label
+                      class="block ml-3 text-sm font-medium text-gray-200 mb-1"
                       >Jelszó megerősítése</label
                     >
                     <input
@@ -265,7 +270,7 @@ const register = () => {
                       type="password"
                       required
                       placeholder="••••••••"
-                      class="w-full rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      class="w-7/8 ml-3 rounded-xl bg-gray-800 border border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-300 hover:bg-gray-700 hover:scale-105 focus:scale-105 focus:shadow-lg focus:shadow-amber-400/50"
                     />
                   </div>
 
@@ -277,13 +282,13 @@ const register = () => {
                     <button
                       type="button"
                       @click="cancel"
-                      class="bg-gray-700 cursor-pointer hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                      class="bg-gray-700 cursor-pointer hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-gray-400/50"
                     >
                       Mégse
                     </button>
                     <button
                       type="submit"
-                      class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+                      class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
                       Regisztráció
                     </button>
@@ -297,3 +302,56 @@ const register = () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-enter-active {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.modal-leave-active {
+  animation: slideOutDown 0.3s ease-in;
+}
+
+.animation-fadeIn {
+  animation: fadeIn 0.3s ease-in;
+}
+
+button {
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+</style>

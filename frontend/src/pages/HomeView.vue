@@ -80,13 +80,13 @@ const openModal = (modalType: "login" | "register") => {
               >
                 <button
                   @click="openModal('login')"
-                  class="bg-black hover:bg-gray-800 cursor-pointer text-white font-bold py-2 px-4 rounded"
+                  class="bg-black hover:bg-gray-800 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-gray-400/50"
                 >
                   Bejelentkezés
                 </button>
                 <button
                   @click="openModal('register')"
-                  class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 px-4 rounded"
+                  class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-orange-400/50"
                 >
                   Regisztráció
                 </button>
@@ -125,6 +125,11 @@ const openModal = (modalType: "login" | "register") => {
             <li
               class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 px-4 rounded-3xl"
             >
+              Felfedezés
+            </li>
+            <li
+              class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 ml-1.5 px-4 rounded-3xl"
+            >
               Éttermek
             </li>
             <li
@@ -135,9 +140,7 @@ const openModal = (modalType: "login" | "register") => {
           </ul>
         </div>
       </div>
-      <h1 class="text-left font-bold text-4xl mt-8 mb-4">
-        Gyorséttermek és Éttermek a közelemben
-      </h1>
+      <h1 class="text-left font-bold text-4xl mt-8 mb-4">Felfedezés</h1>
     </div>
   </div>
   <RegisterModal
