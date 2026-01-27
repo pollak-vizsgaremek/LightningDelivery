@@ -11,7 +11,7 @@ import {
 import { ref } from "vue";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
-import RegisterModal from "../components/LoginRegisterModal.vue";
+import RegisterModal from "./LoginRegisterModal.vue";
 
 const router = useRouter();
 
@@ -74,6 +74,7 @@ const navigateTo = (view: string) => {
                 class="h-8 w-auto sm:h-16 place-self-start cursor-pointer"
                 src="/images/logo.png"
                 alt="Your Company"
+                @click="navigateTo('home')"
               />
               <!-- Lokáció megadása -->
               <!--  Searchinput  -->
@@ -130,12 +131,12 @@ const navigateTo = (view: string) => {
         <div class="bg-black h-full w-2/5">
           <ul class="items-center justify-center flex">
             <li
+              @click="navigateTo('home')"
               class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 px-4 rounded-3xl"
             >
               Felfedezés
             </li>
             <li
-              @click="navigateTo('restaurants')"
               class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 ml-1.5 px-4 rounded-3xl"
             >
               Éttermek
@@ -149,7 +150,7 @@ const navigateTo = (view: string) => {
           </ul>
         </div>
       </div>
-      <h1 class="text-left font-bold text-4xl mt-8 mb-4">Felfedezés</h1>
+      <h1 class="text-left font-bold text-4xl mt-8 mb-4">Éttermek</h1>
     </div>
   </div>
   <RegisterModal
