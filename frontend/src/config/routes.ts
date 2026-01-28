@@ -10,12 +10,12 @@ const router = createRouter({
     },
     {
       path: "/restaurants",
-      component: () => import("../components/RestaurantsPage.vue"),
+      component: () => import("../pages/RestaurantsPage.vue"),
       name: "restaurants",
     },
     {
       path: "/stores",
-      component: () => import("../components/StoresPage.vue"),
+      component: () => import("../pages/StoresPage.vue"),
       name: "stores",
     },
   ],
