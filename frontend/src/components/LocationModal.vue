@@ -375,7 +375,7 @@ const getCurrentLocation = () => {
                 />
                 <button
                   @click="addCustomLocation"
-                  class="bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm"
+                  class="bg-amber-600 cursor-pointer hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm"
                 >
                   Hozzáadás
                 </button>
@@ -385,7 +385,7 @@ const getCurrentLocation = () => {
               <button
                 @click="getCurrentLocation"
                 :disabled="isLoadingLocation"
-                class="w-full bg-gray-800 hover:bg-gray-700 disabled:bg-gray-600 text-white px-3 py-2 rounded-lg transition-colors duration-200 text-sm font-medium flex items-center justify-center gap-2"
+                class="w-full bg-gray-800 cursor-pointer hover:bg-gray-700 disabled:bg-gray-600 text-white px-3 py-2 rounded-lg transition-colors duration-200 text-sm font-medium flex items-center justify-center gap-2"
               >
                 <MapPinIcon class="w-4 h-4" />
                 {{ isLoadingLocation ? "Meghatározás..." : "Jelenlegi helyem" }}

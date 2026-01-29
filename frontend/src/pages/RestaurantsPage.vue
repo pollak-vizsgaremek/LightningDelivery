@@ -13,6 +13,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import RegisterModal from "../components/LoginRegisterModal.vue";
 import LocationModal from "../components/LocationModal.vue";
+import FilterModal from "../components/FilterModal.vue";
 
 const router = useRouter();
 
@@ -157,7 +158,10 @@ const navigateTo = (view: string) => {
           </ul>
         </div>
       </div>
-      <h1 class="text-left font-bold text-4xl mt-8 mb-4">Éttermek</h1>
+      <div class="flex items-center justify-between mt-8 mb-4">
+        <h1 class="text-left font-bold text-4xl">Éttermek</h1>
+        <FilterModal />
+      </div>
     </div>
   </div>
   <RegisterModal
