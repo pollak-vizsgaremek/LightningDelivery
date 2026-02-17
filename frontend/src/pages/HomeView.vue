@@ -74,13 +74,14 @@ const navigateTo = (view: string) => {
             <div class="grid grid-rows-1 grid-cols-3 items-center w-full">
               <div class="flex flex-row gap-2">
                 <img
-                  class="h-8 w-auto sm:h-16 place-self-start cursor-pointer"
+                  class="h-8 mt-2 w-auto sm:h-16 place-self-start cursor-pointer"
                   src="/images/logo.png"
                   alt="Your Company"
                 />
                 <!-- Lokáció megadása -->
-                <div class="place-self-center">
+                <div class="place-self-center mt-5">
                   <LocationModal />
+                  <span class="text-white text-sm ml-2">{{}}</span>
                 </div>
               </div>
 
