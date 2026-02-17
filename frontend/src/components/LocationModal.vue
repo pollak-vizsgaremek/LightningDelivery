@@ -38,11 +38,11 @@ const cityCoordinates: Record<string, { lat: number; lon: number }> = {
 
 const locations = ref<Location[]>([
   {
-    name: "Budapest",
+    name: "Csongrád",
     address: "Budapest, Magyarország",
     distance: "0 km",
-    latitude: 47.4979,
-    longitude: 19.0402,
+    latitude: 46.7119,
+    longitude: 20.1411,
   },
   {
     name: "Debrecen",
@@ -145,6 +145,7 @@ const toggleModal = () => {
 
 const closeModal = () => {
   isOpen.value = false;
+
   searchInput.value = "";
   customLocationInput.value = "";
   locationError.value = "";
@@ -297,7 +298,7 @@ const getCurrentLocation = () => {
     <!-- Location Button -->
     <button
       @click="toggleModal"
-      class="flex items-center gap-2 rounded-lg bg-black text-white px-4 py-2 transition-colors duration-200 cursor-pointer"
+      class="flex justify-center items-center gap-2 rounded-lg bg-black text-white px-4 py-2 transition-colors duration-200 cursor-pointer"
     >
       <MapPinIcon class="w-5 h-5 text-amber-400 flex-shrink-0" />
       <span class="font-medium">{{ selectedLocation }}</span>
