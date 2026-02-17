@@ -34,3 +34,11 @@ model rendeles {
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
 }
+
+model ettermek {
+  ID         Int    @id @default(autoincrement())
+  EtteremNev String @db.VarChar(100)
+  VarosID    Int
+  Longitude  Float  @db.Float
+  Latitude   Float  @db.Float
+}
