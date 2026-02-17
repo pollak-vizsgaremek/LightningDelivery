@@ -32,18 +32,18 @@ app.delete("/api/rendeles/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    await prisma.etelek.delete({
+    await prisma.rendeles.delete({
       where: {
-        id,
+        ID: Number(id),
       },
     });
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(404).send();
+    res.status(404).send("Nem sikerült törölni");
   }
 });
 
 app.listen(3300, () => {
-  console.log("Elindult");
+  console.log("Elindult http://localhost:3300");
 });
