@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-=======
->>>>>>> 84811934184cd717e2e88c329ea35f58b4527f67
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -15,9 +6,6 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-<<<<<<< HEAD
-
-=======
 }
 
 model etelek {
@@ -37,15 +25,12 @@ model italok {
 }
 
 model rendeles {
-  ID          Int    @id @default(autoincrement())
-  OsszAr      Int
-  OsszKaloria Int
-  EtelekID    Int
-  ItalokID    Int
-  italok      italok @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
-  etelek      etelek @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
+  ID       Int    @id @default(autoincrement())
+  EtelekID Int
+  ItalokID Int
+  italok   italok @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
+  etelek   etelek @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
 
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
->>>>>>> 84811934184cd717e2e88c329ea35f58b4527f67
 }
