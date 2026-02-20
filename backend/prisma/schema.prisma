@@ -36,9 +36,20 @@ model rendeles {
 }
 
 model ettermek {
-  ID         Int    @id @default(autoincrement())
-  EtteremNev String @db.VarChar(100)
+  ID         Int     @id @default(autoincrement())
+  EtteremNev String  @db.VarChar(100)
   VarosID    Int
-  Longitude  Float  @db.Float
-  Latitude   Float  @db.Float
+  Longitude  Float   @db.Float
+  Latitude   Float   @db.Float
+  varosok    varosok @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
+
+  @@index([VarosID], map: "VarosID")
+}
+
+model varosok {
+  ID        Int        @id @default(autoincrement())
+  VarosNev  String     @db.VarChar(100)
+  Longitude Float      @db.Float
+  Latitude  Float      @db.Float
+  ettermek  ettermek[]
 }
