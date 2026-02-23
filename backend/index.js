@@ -1,5 +1,6 @@
 import e from "express";
 import { PrismaClient } from "./generated/prisma/client.js";
+import bcrypt from "bcrypt"
 
 const app = e();
 const prisma = new PrismaClient();
@@ -11,19 +12,41 @@ app.get("/api/rendeles", async (_, res) => {
   res.status(200).json(data);
 });
 
+app.post("/api/regisztracio", async (req, res) => {
+  const data = req.body;
+  const hashedPassword = bcrypt.hashSync(data.Jelszo, 10);
+
+  try {
+    await prisma.felhasznalok.create({
+      data: {
+        Email: data.Email,
+        Felhasznalonev: data.Felhasznalonev,
+        Jelszo: hashedPassword,
+      },
+    });
+    res.status(201).send("Sikeres regisztráció");
+  } catch(error) {
+    console.error(error)
+    res.status(500).send("Szerver hiba");
+  }
+});
+
 app.post("/api/rendelesleadas", async (req, res) => {
   const data = req.body;
+  
 
   try {
     await prisma.rendeles.create({
       data: {
         EtelekID: data.EtelekID,
         ItalokID: data.ItalokID,
+        FelhasznalokID: data.FelhasznalokID,
       },
     });
 
     res.status(201).send("Rendelés sikeresen hozzáadva");
   } catch (error) {
+    console.error(error)
     res.status(500).send("Szerver hiba");
   }
 });

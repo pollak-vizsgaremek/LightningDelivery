@@ -25,14 +25,18 @@ model italok {
 }
 
 model rendeles {
-  ID       Int    @id @default(autoincrement())
-  EtelekID Int
-  ItalokID Int
-  italok   italok @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
-  etelek   etelek @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
+  ID             Int          @id @default(autoincrement())
+  EtelekID       Int
+  ItalokID       Int
+  FelhasznalokID Int
+  italok         italok       @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
+  etelek         etelek       @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
+  felhasznalok   felhasznalok @relation(fields: [FelhasznalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_4")
 
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
+  @@index([FelhasznalokID], map: "FelhasznalokID")
+  @@index([FelhasznalokID], map: "UserID")
 }
 
 model ettermek {
@@ -52,4 +56,12 @@ model varosok {
   Longitude Float      @db.Float
   Latitude  Float      @db.Float
   ettermek  ettermek[]
+}
+
+model felhasznalok {
+  ID             Int        @id @default(autoincrement())
+  Email          String     @db.VarChar(100)
+  Felhasznalonev String     @db.VarChar(100)
+  Jelszo         String     @db.VarChar(100)
+  rendeles       rendeles[]
 }
