@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -16,6 +15,17 @@ model etelek {
   rendeles rendeles[]
 }
 
+model ettermek {
+  ID         Int     @id @default(autoincrement())
+  EtteremNev String  @db.VarChar(100)
+  VarosID    Int
+  Longitude  Float   @db.Float
+  Latitude   Float   @db.Float
+  varosok    varosok @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
+
+  @@index([VarosID], map: "VarosID")
+}
+
 model italok {
   ID       Int        @id @default(autoincrement())
   Nev      String     @db.VarChar(100)
@@ -28,22 +38,22 @@ model rendeles {
   ID       Int    @id @default(autoincrement())
   EtelekID Int
   ItalokID Int
+  UserId   Int    @unique(map: "UserId")
   italok   italok @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
   etelek   etelek @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
+  user     user   @relation(fields: [UserId], references: [id], onUpdate: Restrict, map: "rendeles_ibfk_4")
 
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
 }
 
-model ettermek {
-  ID         Int     @id @default(autoincrement())
-  EtteremNev String  @db.VarChar(100)
-  VarosID    Int
-  Longitude  Float   @db.Float
-  Latitude   Float   @db.Float
-  varosok    varosok @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
-
-  @@index([VarosID], map: "VarosID")
+model user {
+  id       Int       @id @default(autoincrement())
+  username Int
+  email    Int
+  fullName Int
+  password Int
+  rendeles rendeles?
 }
 
 model varosok {
