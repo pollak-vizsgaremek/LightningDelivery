@@ -36,7 +36,6 @@ model rendeles {
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
   @@index([FelhasznalokID], map: "FelhasznalokID")
-  @@index([FelhasznalokID], map: "UserID")
 }
 
 model ettermek {
@@ -61,7 +60,7 @@ model varosok {
 model felhasznalok {
   ID             Int        @id @default(autoincrement())
   Email          String     @db.VarChar(100)
-  Felhasznalonev String     @db.VarChar(100)
+  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
   Jelszo         String     @db.VarChar(100)
   rendeles       rendeles[]
 }

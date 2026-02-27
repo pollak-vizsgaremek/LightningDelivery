@@ -71,6 +71,24 @@ app.post("/api/regisztracio", async (req, res) => {
   }
 });
 
+app.post("/api/bejelentkezes", async (req, res) => {
+  const data = req.body;
+  const plainPassword = data.Jelszo;
+  const hashedPassword = await prisma.felhasznalok.findUnique({
+    where: {
+      
+      Felhasznalonev: data.Felhasznalonev,
+    },
+  });
+  bcrypt.compare(plainPassword, hashedPassword).then(function (result) {
+    if (result) {
+      res.status(200).send("Sikeres bejelentkezés");
+    } else {
+      res.status(400).send("Helytelen adatok");
+    }
+  });
+});
+
 app.post("/api/rendelesleadas", async (req, res) => {
   const data = req.body;
 
