@@ -156,7 +156,7 @@
           >
             <button
               @click="clear"
-              class="text-sm text-gray-400 hover:text-white transition-colors cursor-pointer"
+              class="text-sm text-gray-400 border border-gray-700 bg-red-600 font-bold hover:text-white transition-colors cursor-pointer px-3 py-1 rounded-lg"
             >
               Törlés
             </button>

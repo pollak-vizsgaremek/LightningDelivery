@@ -183,7 +183,7 @@ const register = () => {
               v-for="category in Object.keys(categories)"
               :key="category"
               as="button"
-              class="tab-button w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-400 text-gray-300 hover:bg-white/4 hover:text-white hover:scale-95"
+              class="tab-button w-full cursor-pointer rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-400 text-gray-300 hover:bg-white/4 hover:text-white hover:scale-95"
             >
               {{ category }}
             </Tab>
@@ -320,7 +320,7 @@ const register = () => {
                       Mégse
                     </button>
                     <button
-                      @click ="register"
+                      @click="register"
                       type="submit"
                       class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
