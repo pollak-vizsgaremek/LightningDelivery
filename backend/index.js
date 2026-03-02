@@ -25,7 +25,9 @@ app.use(
 
 // register
 
-app.use("/api/v1/users", authMiddleware, userController);
+function register() {
+
+  app.use("/api/v1/users", authMiddleware, userController);
 
 app.post("/api/v1/auth/register", async (req, res) => {
   try {
@@ -62,8 +64,13 @@ app.post("/api/v1/auth/register", async (req, res) => {
     res.status(500).json({ message: "Szerver hiba történt!" });
   }
 });
+}
+
+
 
 // login
+
+function login() {
 
 app.post("/api/v1/auth/login", async (req, res) => {
   try {
@@ -106,6 +113,9 @@ app.post("/api/v1/auth/login", async (req, res) => {
 });
 
 ////////////////////////
+}
+
+
 
 // rendelések
 

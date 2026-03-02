@@ -238,6 +238,7 @@ const register = () => {
                       Mégse
                     </button>
                     <button
+                      @click="login"
                       type="submit"
                       class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
@@ -319,6 +320,7 @@ const register = () => {
                       Mégse
                     </button>
                     <button
+                      @click ="register"
                       type="submit"
                       class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
