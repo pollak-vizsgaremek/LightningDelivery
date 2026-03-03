@@ -166,6 +166,33 @@ const navigateTo = (view: string) => {
       </div>
     </div>
   </div>
+  <footer class="bg-gray-900 text-white p-8 grid grid-cols-6 gap-4">
+    <div>
+      <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
+      <p>Készítette: A MARADÉK</p>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Legyél LightningDelivery partner</h1>
+      <a href="" class="hover:underline">Kiszállítóként</a>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Cég</h1>
+      <a href="" class="hover:underline">Rólunk</a>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Szolgáltatások</h1>
+      <a href="" class="hover:underline">Kiszállítás</a>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
+      <a href="" class="hover:underline">Gyakori kérdések</a>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Kövess minket</h1>
+      <a href="" class="hover:underline">instagram</a><br />
+      <a href="" class="hover:underline">facebook</a>
+    </div>
+  </footer>
   <RegisterModal
     v-model:visible="isModalVisible"
     @update:visible="isModalVisible = $event"
