@@ -175,7 +175,9 @@ const isRecommendPage = () => {
         </div>
       </div>
     </div>
-    <footer class="bg-gray-900 text-white p-8 grid grid-cols-6 gap-4">
+    <footer
+      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
+    >
       <div>
         <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
         <p>Készítette: A MARADÉK</p>
@@ -215,3 +217,20 @@ const isRecommendPage = () => {
     <RouterView />
   </div>
 </template>
+
+<style scoped>
+@keyframes slideUpFooter {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer-anim {
+  animation: slideUpFooter 0.8s ease-out forwards;
+}
+</style>
