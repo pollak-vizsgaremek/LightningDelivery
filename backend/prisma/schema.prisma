@@ -34,6 +34,7 @@ model rendeles {
 
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
+  @@index([FelhasznalokID], map: "FelhasznalokID")
 }
 
 model ettermek {
@@ -47,37 +48,6 @@ model ettermek {
   @@index([VarosID], map: "VarosID")
 }
 
-model italok {
-  ID       Int        @id @default(autoincrement())
-  Nev      String     @db.VarChar(100)
-  Ar       Int
-  Kaloria  Int
-  rendeles rendeles[]
-}
-
-model rendeles {
-  ID             Int          @id @default(autoincrement())
-  EtelekID       Int
-  ItalokID       Int
-  FelhasznalokID Int
-  italok         italok       @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
-  etelek         etelek       @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
-  felhasznalok   felhasznalok @relation(fields: [FelhasznalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_4")
-
-  @@index([EtelekID], map: "EtelekID")
-  @@index([ItalokID], map: "ItalokID")
-  @@index([FelhasznalokID], map: "FelhasznalokID")
-}
-
-model user {
-  id       Int       @id @default(autoincrement())
-  username Int
-  email    Int
-  fullName Int
-  password Int
-  rendeles rendeles?
-}
-
 model varosok {
   ID        Int        @id @default(autoincrement())
   VarosNev  String     @db.VarChar(100)
@@ -88,8 +58,9 @@ model varosok {
 
 model felhasznalok {
   ID             Int        @id @default(autoincrement())
-  Email          String     @db.VarChar(100)
+  Email          String     @unique(map: "Email") @db.VarChar(100)
   Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
+  TeljesNev      String     @db.VarChar(100)
   Jelszo         String     @db.VarChar(100)
   rendeles       rendeles[]
 }
