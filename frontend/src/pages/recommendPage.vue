@@ -5,22 +5,28 @@
   <div
     class="min-h-screen items-center justify-center text-center bg-black text-white"
   >
-    <div class="grid grid-cols-3">
-      <div class="w-1/2">
-        <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
-          <img src="/images/logo.png" class="h-20 w-20" />
-        </RouterLink>
-      </div>
-    </div>
+    <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
+      <img src="/images/logo.png" class="h-20 w-20" />
+    </RouterLink>
+
     <!-- Hero -->
     <section
-      class="container mx-auto px-6 py-20 flex flex-col lg:flex-row items-center gap-8"
+      class="container relative mx-auto px-6 py-20 flex flex-col lg:flex-row items-center gap-8"
     >
-      <div class="lg:w-1/2">
-        <h1 class="text-4xl lg:text-5xl font-extrabold text-amber-400 mb-4">
+      <img
+        src="/images/recommmendPageMatrica.png"
+        alt="Recommendation Image"
+        class="w-1/2 left-[50%] translate-x-[-50%] mx-auto absolute z-0 blur-sm flex justify-center"
+      />
+      <div class="lg:w-1/2 z-1">
+        <h1
+          class="text-4xl text-shadow-yellow-800 text-shadow-md lg:text-5xl font-extrabold text-amber-400 mb-4"
+        >
           Legyél részese a LightningDelivery-nek!
         </h1>
-        <p class="text-gray-300 mb-6 font-bold text-xl text-center mx-auto">
+        <p
+          class="text-gray-300 text-shadow-black text-shadow-md mb-6 font-bold text-xl text-center mx-auto"
+        >
           Gyors, megbízható és egyszerű. Csatlakozz partnerként vagy ügyfélként,
           és tapasztald meg, hogyan dolgozunk együtt hogy a rendelésed mindig
           időben érkezzen.
@@ -33,7 +39,7 @@
           >
         </div>
       </div>
-      <div class="lg:w-1/2 flex justify-center">
+      <div class="lg:w-1/2 flex z-1 justify-center">
         <!-- <div
           class="w-80 h-80 bg-gradient-to-br from-orange-800 to-orange-600 rounded-3xl flex items-center justify-center shadow-lg"
         >
@@ -42,7 +48,7 @@
         <img
           src="/images/RecommendZeusz.png"
           alt="Recommendation Image"
-          class="w-4/5 h-auto rounded-3xl shadow-lg"
+          class="w-4/5 h-auto rounded-3xl drop-shadow-lg drop-shadow-amber-300 object-cover"
         />
       </div>
     </section>
@@ -53,7 +59,7 @@
         class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
       >
         <div class="p-6 bg-gray-800 rounded-xl">
-          <h3 class="text-amber-400 text-xl font-bold text-xl mb-2">
+          <h3 class="text-amber-400 font-bold text-xl mb-2">
             Gyors kiszállítás
           </h3>
           <p class="text-gray-300">
@@ -132,7 +138,7 @@
             </li>
             <li>
               <strong>Minden terepen otthon vagyunk:</strong> Legyen az az
-              Akropolisz meredek lépcsősora vagy a legforg almasabb belvárosi
+              Akropolisz meredek lépcsősora vagy a legforgalmasabb belvárosi
               sugárút, mi megtaláljuk az utat.
             </li>
             <li>
