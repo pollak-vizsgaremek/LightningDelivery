@@ -1,19 +1,6 @@
 <script setup lang="ts">
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/vue";
 import { ref } from "vue";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
-import RegisterModal from "../components/LoginRegisterModal.vue";
-import LocationModal from "../components/LocationModal.vue";
-import FilterModal from "../components/FilterModal.vue";
 
 const router = useRouter();
 
