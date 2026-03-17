@@ -25,7 +25,7 @@
           Legyél részese a LightningDelivery-nek!
         </h1>
         <p
-          class="text-gray-300 text-shadow-black text-shadow-md mb-6 font-bold text-xl text-center mx-auto"
+          class="text-gray-300 text-shadow-black lg:w-1/3 text-shadow-md mb-6 font-bold text-xl text-center mx-auto"
         >
           Gyors, megbízható és egyszerű. Csatlakozz partnerként vagy ügyfélként,
           és tapasztald meg, hogyan dolgozunk együtt hogy a rendelésed mindig
@@ -48,7 +48,7 @@
         <img
           src="/images/RecommendZeusz.png"
           alt="Recommendation Image"
-          class="w-4/5 h-auto rounded-3xl drop-shadow-lg drop-shadow-amber-300 object-cover"
+          class="w-4/5 h-auto rounded-3xl drop-shadow-lg drop-shadow-amber-500 object-cover"
         />
       </div>
     </section>
@@ -153,7 +153,7 @@
       </div>
     </section>
     <footer
-      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4 footer-anim"
+      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
     >
       <div>
         <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
@@ -165,7 +165,7 @@
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Cég</h1>
-        <a href="" class="hover:underline">Rólunk</a>
+        <a href="/about" class="hover:underline">Rólunk</a>
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Szolgáltatások</h1>

@@ -23,6 +23,11 @@ const router = createRouter({
       component: () => import("../pages/recommendPage.vue"),
       name: "recommend",
     },
+    {
+      path: "/about",
+      component: () => import("../pages/AboutUsPage.vue"),
+      name: "about",
+    },
   ],
 });
 export default router;

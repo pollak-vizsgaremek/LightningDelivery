@@ -46,9 +46,13 @@ const navigateTo = (view: string) => {
 const isRecommendPage = () => {
   return router.currentRoute.value.name === "recommend";
 };
+
+const isAboutPage = () => {
+  return router.currentRoute.value.name === "about";
+};
 </script>
 <template>
-  <div v-if="!isRecommendPage()">
+  <div v-if="!isRecommendPage() && !isAboutPage()">
     <div
       :class="
         isModalVisible ? 'filter blur-sm transition-filter duration-200' : ''
@@ -190,7 +194,7 @@ const isRecommendPage = () => {
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Cég</h1>
-        <a href="" class="hover:underline">Rólunk</a>
+        <RouterLink to="/about" class="hover:underline">Rólunk</RouterLink>
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Szolgáltatások</h1>
