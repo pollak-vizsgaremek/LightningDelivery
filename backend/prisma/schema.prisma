@@ -8,29 +8,24 @@ datasource db {
 }
 
 model etelek {
-  ID       Int        @id @default(autoincrement())
-  Nev      String     @db.VarChar(100)
-  Ar       Int
-  Kaloria  Int
-  rendeles rendeles[]
+  ID      Int    @id @default(autoincrement())
+  Nev     String @db.VarChar(100)
+  Ar      Int
+  Kaloria Int
 }
 
 model italok {
-  ID       Int        @id @default(autoincrement())
-  Nev      String     @db.VarChar(100)
-  Ar       Int
-  Kaloria  Int
-  rendeles rendeles[]
+  ID      Int    @id @default(autoincrement())
+  Nev     String @db.VarChar(100)
+  Ar      Int
+  Kaloria Int
 }
 
 model rendeles {
-  ID             Int          @id @default(autoincrement())
+  ID             Int @id @default(autoincrement())
   EtelekID       Int
   ItalokID       Int
   FelhasznalokID Int
-  italok         italok       @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
-  etelek         etelek       @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
-  felhasznalok   felhasznalok @relation(fields: [FelhasznalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_4")
 
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
@@ -57,10 +52,9 @@ model varosok {
 }
 
 model felhasznalok {
-  ID             Int        @id @default(autoincrement())
-  Email          String     @unique(map: "Email") @db.VarChar(100)
-  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
-  TeljesNev      String     @db.VarChar(100)
-  Jelszo         String     @db.VarChar(100)
-  rendeles       rendeles[]
+  ID             Int    @id @default(autoincrement())
+  Email          String @unique(map: "Email") @db.VarChar(100)
+  Felhasznalonev String @unique(map: "Felhasznalonev") @db.VarChar(100)
+  TeljesNev      String @db.VarChar(100)
+  Jelszo         String @db.VarChar(100)
 }

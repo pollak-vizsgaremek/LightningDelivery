@@ -6,7 +6,7 @@ const authMiddleware = (req, res, next) => {
   const accessToken = req.headers.authorization;
 
   if (!accessToken) {
-    return res.status(401).send("Sign In!");
+    return res.status(401).send("Jelentkezz be!");
   }
 
   try {

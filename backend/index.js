@@ -1,7 +1,7 @@
 import e from "express";
 import cors from "cors";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "./generated/prisma/index.js";
+import { PrismaClient } from "@prisma/client";
 import jsonwebtoken from "jsonwebtoken";
 import userController from "./controller/user.controller.js";
 import authMiddleware from "./middleware/auth.middleware.js";
@@ -23,43 +23,21 @@ app.use(
 
 // register
 
-app.post("/api/v1/auth/register", async (req, res) => {
-  try {
-    const { Felhasznalonev, Jelszo, Jelszo2, Email, TeljesNev } = req.body;
-
-    if (!Felhasznalonev || !Jelszo || !Jelszo2 || !Email || !TeljesNev)
-      return res
-        .status(400)
-        .json({ message: "Minden mező kitöltése kötelező!" });
-
-    if (Jelszo !== Jelszo2)
-      return res.status(400).json({ message: "A jelszavak nem egyeznek!" });
-
-    // Ellenőrizzük, létezik-e már a felhasználó (Vue-nál fontos a pontos hibaüzenet)
-    const letezo = await prisma.felhasznalok.findUnique({
-      where: { Email: Email },
-    });
-    if (letezo)
-      return res.status(400).json({ message: "Az email már foglalt!" });
-
-    const hashedPwd = await bcrypt.hash(Jelszo, 12);
-
-    await prisma.felhasznalok.create({
-      data: {
-        Felhasznalonev: Felhasznalonev,
-        Email: Email,
-        TeljesNev: TeljesNev,
-        Jelszo: hashedPwd,
-      },
-    });
-
-    res.status(201).json({ message: "Sikeres regisztráció!" });
-  } catch (error) {
-    // ha szerver hiba történik, akkor irtam ide egy catch-et
-    console.log(error);
-
-    res.status(500).json({ message: "Szerver hiba történt!" });
-  }
+app.post("/api/v1/auth/login", async (req, res) => {
+  const data = req.body;
+  const plainPassword = data.Jelszo;
+  const felhasznalo = await prisma.felhasznalok.findFirst({
+    where: {
+      Felhasznalonev: data.Felhasznalonev,
+    },
+  });
+  bcrypt.compare(plainPassword, felhasznalo.Jelszo).then(function (result) {
+    if (result) {
+      res.status(200).send("Sikeres bejelentkezés");
+    } else {
+      res.status(400).send("Helytelen adatok");
+    }
+  });
 });
 
 // login
@@ -116,6 +94,11 @@ app.get("/api/rendeles", async (_, res) => {
   res.status(200).json(data);
 });
 
+app.get("/api/users", async (_, res) => {
+  const data = await prisma.felhasznalok.findMany();
+  res.status(200).json(data);
+});
+
 app.post("/api/v1/register", async (req, res) => {
   const { Felhasznalonev, Jelszo, Jelszo2, Email, TeljesNev } = req.body;
   const hashedPassword = bcrypt.hashSync(Jelszo, 14);
@@ -136,7 +119,7 @@ app.post("/api/v1/register", async (req, res) => {
           Email: Email,
           Felhasznalonev: Felhasznalonev,
           Jelszo: hashedPassword,
-          TeljesNev: TeljesNev
+          TeljesNev: TeljesNev,
         },
       });
 
@@ -146,23 +129,6 @@ app.post("/api/v1/register", async (req, res) => {
       res.status(500).send("Szerver hiba");
     }
   }
-});
-
-app.post("/api/v1/login", async (req, res) => {
-  const data = req.body;
-  const plainPassword = data.Jelszo;
-  const felhasznalo = await prisma.felhasznalok.findFirst({
-    where: {
-      Felhasznalonev: data.Felhasznalonev,
-    },
-  });
-  bcrypt.compare(plainPassword, felhasznalo.Jelszo).then(function (result) {
-    if (result) {
-      res.status(200).send("Sikeres bejelentkezés");
-    } else {
-      res.status(400).send("Helytelen adatok");
-    }
-  });
 });
 
 app.post("/api/rendelesleadas", async (req, res) => {
