@@ -109,6 +109,20 @@ const login = () => {
     email: loginEmail.value,
     password: loginPassword.value,
   });
+
+  //Login Fetch
+
+  fetch("http://localhost:3300/api/v1/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Email: loginEmail.value,
+      Jelszo: loginPassword.value,
+    }),
+  });
+
   // TODO: replace with real authentication flow
   isOpen.value = false;
   emit("update:visible", false);
@@ -131,7 +145,22 @@ const register = () => {
     name: regName.value,
     email: regEmail.value,
   });
-  // TODO: replace with real registration flow
+
+  //Register Fetch
+
+  fetch("http://localhost:3300/api/v1/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Email: regEmail.value,
+      TeljesNev: regName.value,
+      Jelszo: regPassword.value,
+      Jelszo2: regPasswordConfirm.value,
+    }),
+  });
+
   isOpen.value = false;
   emit("update:visible", false);
 };
@@ -320,7 +349,6 @@ const register = () => {
                       Mégse
                     </button>
                     <button
-                      @click="register"
                       type="submit"
                       class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
