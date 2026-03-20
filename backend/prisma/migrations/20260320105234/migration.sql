@@ -9,18 +9,6 @@ CREATE TABLE `etelek` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `ettermek` (
-    `ID` INTEGER NOT NULL AUTO_INCREMENT,
-    `EtteremNev` VARCHAR(100) NOT NULL,
-    `VarosID` INTEGER NOT NULL,
-    `Longitude` FLOAT NOT NULL,
-    `Latitude` FLOAT NOT NULL,
-
-    INDEX `VarosID`(`VarosID`),
-    PRIMARY KEY (`ID`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `italok` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `Nev` VARCHAR(100) NOT NULL,
@@ -35,23 +23,24 @@ CREATE TABLE `rendeles` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `EtelekID` INTEGER NOT NULL,
     `ItalokID` INTEGER NOT NULL,
-    `UserId` INTEGER NOT NULL,
+    `FelhasznalokID` INTEGER NOT NULL,
 
-    UNIQUE INDEX `UserId`(`UserId`),
     INDEX `EtelekID`(`EtelekID`),
     INDEX `ItalokID`(`ItalokID`),
+    INDEX `FelhasznalokID`(`FelhasznalokID`),
     PRIMARY KEY (`ID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `user` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `username` INTEGER NOT NULL,
-    `email` INTEGER NOT NULL,
-    `fullName` INTEGER NOT NULL,
-    `password` INTEGER NOT NULL,
+CREATE TABLE `ettermek` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `EtteremNev` VARCHAR(100) NOT NULL,
+    `VarosID` INTEGER NOT NULL,
+    `Longitude` FLOAT NOT NULL,
+    `Latitude` FLOAT NOT NULL,
 
-    PRIMARY KEY (`id`)
+    INDEX `VarosID`(`VarosID`),
+    PRIMARY KEY (`ID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -64,11 +53,16 @@ CREATE TABLE `varosok` (
     PRIMARY KEY (`ID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `felhasznalok` (
+    `ID` INTEGER NOT NULL AUTO_INCREMENT,
+    `Email` VARCHAR(100) NOT NULL,
+    `TeljesNev` VARCHAR(100) NOT NULL,
+    `Jelszo` VARCHAR(100) NOT NULL,
+
+    UNIQUE INDEX `Email`(`Email`),
+    PRIMARY KEY (`ID`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `ettermek` ADD CONSTRAINT `ettermek_ibfk_1` FOREIGN KEY (`VarosID`) REFERENCES `varosok`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- AddForeignKey
-ALTER TABLE `rendeles` ADD CONSTRAINT `rendeles_ibfk_2` FOREIGN KEY (`ItalokID`) REFERENCES `italok`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- AddForeignKey
-ALTER TABLE `rendeles` ADD CONSTRAINT `rendeles_ibfk_3` FOREIGN KEY (`EtelekID`) REFERENCES `etelek`(`ID`) ON DELETE RESTRICT ON UPDATE RESTRICT;
