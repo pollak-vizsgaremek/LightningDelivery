@@ -9,7 +9,7 @@
       <img src="/images/logo.png" class="h-20 w-20" />
     </RouterLink>
     <h1
-      class="text-4xl text-shadow-yellow-800 text-shadow-md lg:text-5xl font-extrabold text-amber-400 mb-4"
+      class="text-4xl text-shadow-yellow-800 text-shadow-lg lg:text-5xl font-extrabold text-amber-400 mb-4"
     >
       Rólunk
     </h1>
@@ -163,7 +163,7 @@
     >
       <div class="lg:w-4/8 flex z-1 justify-center">
         <img
-          src="/images/RichZeusz.png"
+          src="/images/Zeuszkincs.png"
           alt="About Us Image"
           class="w-4/5 h-auto rounded-3xl drop-shadow-lg drop-shadow-blue-300 object-cover"
         />
@@ -192,10 +192,12 @@
     <footer
       class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
     >
-      <div>
-        <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
-        <p>Készítette: A MARADÉK</p>
-      </div>
+      <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
+        <div>
+          <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
+          <p>Készítette: A MARADÉK</p>
+        </div>
+      </RouterLink>
       <div>
         <h1 class="text-l font-bold mb-3">Legyél LightningDelivery partner</h1>
         <RouterLink to="/recommend" class="hover:underline"

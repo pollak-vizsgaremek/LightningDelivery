@@ -182,10 +182,12 @@ const isAboutPage = () => {
     <footer
       class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
     >
-      <div>
-        <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
-        <p>Készítette: A MARADÉK</p>
-      </div>
+      <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
+        <div>
+          <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
+          <p>Készítette: A MARADÉK</p>
+        </div>
+      </RouterLink>
       <div>
         <h1 class="text-l font-bold mb-3">Legyél LightningDelivery partner</h1>
         <RouterLink to="/recommend" class="hover:underline"
