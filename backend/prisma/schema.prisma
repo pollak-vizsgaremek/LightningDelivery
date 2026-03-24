@@ -12,6 +12,7 @@ model etelek {
   Nev      String     @db.VarChar(100)
   Ar       Int
   Kaloria  Int
+  menuk    menuk[]
   rendeles rendeles[]
 }
 
@@ -20,6 +21,7 @@ model italok {
   Nev      String     @db.VarChar(100)
   Ar       Int
   Kaloria  Int
+  menuk    menuk[]
   rendeles rendeles[]
 }
 
@@ -44,6 +46,7 @@ model ettermek {
   Longitude  Float   @db.Float
   Latitude   Float   @db.Float
   varosok    varosok @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
+  menuk      menuk[]
 
   @@index([VarosID], map: "VarosID")
 }
@@ -58,9 +61,28 @@ model varosok {
 
 model felhasznalok {
   ID             Int        @id @default(autoincrement())
-  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
   Email          String     @unique(map: "Email") @db.VarChar(100)
   TeljesNev      String     @db.VarChar(100)
   Jelszo         String     @db.VarChar(100)
+  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
   rendeles       rendeles[]
+}
+
+model menuk {
+  ID         Int      @id @default(autoincrement())
+  EttermekID Int
+  MenuNev    String   @db.VarChar(100)
+  MenuAr     Int
+  EtelekID   Int
+  ItalokID   Int
+  AkciosE    Boolean
+  AkciosAr   Int
+  etelek     etelek   @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_1")
+  italok     italok   @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_2")
+  ettermek   ettermek @relation(fields: [EttermekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_3")
+
+  @@index([EtelekID, ItalokID], map: "EtelekID")
+  @@index([ItalokID], map: "ItalokID")
+  @@index([EttermekID], map: "EtteremID")
+  @@index([EttermekID], map: "EttermekID")
 }
