@@ -57,7 +57,7 @@ CREATE TABLE `varosok` (
 CREATE TABLE `felhasznalok` (
     `ID` INTEGER NOT NULL AUTO_INCREMENT,
     `Email` VARCHAR(100) NOT NULL,
-    `TeljesNev` VARCHAR(100) NOT NULL,
+    `FelhasznaloNev` VARCHAR(100) NOT NULL,
     `Jelszo` VARCHAR(100) NOT NULL,
 
     UNIQUE INDEX `Email`(`Email`),

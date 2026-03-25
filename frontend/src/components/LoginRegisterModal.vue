@@ -112,7 +112,7 @@ const login = () => {
 
   //Login Fetch
 
-  fetch("http://localhost:3300/api/v1/login", {
+  fetch("http://localhost:3300/api/v1/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -121,9 +121,23 @@ const login = () => {
       Email: loginEmail.value,
       Jelszo: loginPassword.value,
     }),
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("userName", data.userName);
+        router.push("/recommend");
+      } else {
+        alert("Hibás email vagy jelszó!");
+      }
+    })
+    .catch((error) => {
+      console.error("Hiba a bejelentkezés során:", error);
+      alert("Hiba történt a bejelentkezés során. Kérlek, próbáld újra!");
+    });
 
-  // TODO: replace with real authentication flow
   isOpen.value = false;
   emit("update:visible", false);
 };
@@ -148,14 +162,14 @@ const register = () => {
 
   //Register Fetch
 
-  fetch("http://localhost:3300/api/v1/register", {
+  fetch("http://localhost:3300/api/v1/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       Email: regEmail.value,
-      TeljesNev: regName.value,
+      FelhasznaloNev: regName.value,
       Jelszo: regPassword.value,
       Jelszo2: regPasswordConfirm.value,
     }),

@@ -58,9 +58,8 @@ model varosok {
 
 model felhasznalok {
   ID             Int        @id @default(autoincrement())
-  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
   Email          String     @unique(map: "Email") @db.VarChar(100)
-  TeljesNev      String     @db.VarChar(100)
   Jelszo         String     @db.VarChar(100)
+  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
   rendeles       rendeles[]
 }

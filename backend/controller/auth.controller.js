@@ -9,12 +9,12 @@ const router = Router();
 //Register
 
 router.post("/register", async (req, res) => {
-  const { Felhasznalonev, Jelszo, Jelszo2, Email, TeljesNev } = req.body;
+  const { Felhasznalonev, Jelszo, Jelszo2, Email } = req.body;
   const hashedPassword = bcrypt.hashSync(Jelszo, 14);
   const letezo = await prisma.felhasznalok.findFirst({
     where: { Email: Email },
   });
-  if (!Felhasznalonev || !Jelszo || !Jelszo2 || !Email || !TeljesNev)
+  if (!Felhasznalonev || !Jelszo || !Jelszo2 || !Email)
     return res.status(400).json({ message: "Minden mező kitöltése kötelező!" });
   if (Jelszo !== Jelszo2) {
     return res.status(400).json({ message: "A jelszavak nem egyeznek!" });
@@ -28,7 +28,6 @@ router.post("/register", async (req, res) => {
           Email: Email,
           Felhasznalonev: Felhasznalonev,
           Jelszo: hashedPassword,
-          TeljesNev: TeljesNev,
         },
       });
 
@@ -72,7 +71,7 @@ router.post("/login", async (req, res) => {
       return res.status(200).json({
         accessToken,
         userId: user.ID,
-        userName: user.TeljesNev,
+        userName: user.Felhasznalonev,
       });
     } else {
       return res.status(401).json({ message: "Hibás email vagy jelszó!" });
