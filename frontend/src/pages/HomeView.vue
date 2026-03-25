@@ -4,12 +4,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
+
 const isModalVisible = ref(false);
 
 const type = ref<"login" | "register">("login");
