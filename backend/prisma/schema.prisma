@@ -1,23 +1,10 @@
-<<<<<<< HEAD
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-=======
->>>>>>> 84811934184cd717e2e88c329ea35f58b4527f67
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-<<<<<<< HEAD
-
-=======
 }
 
 model etelek {
@@ -25,6 +12,7 @@ model etelek {
   Nev      String     @db.VarChar(100)
   Ar       Int
   Kaloria  Int
+  menuk    menuk[]
   rendeles rendeles[]
 }
 
@@ -33,19 +21,67 @@ model italok {
   Nev      String     @db.VarChar(100)
   Ar       Int
   Kaloria  Int
+  menuk    menuk[]
   rendeles rendeles[]
 }
 
 model rendeles {
-  ID          Int    @id @default(autoincrement())
-  OsszAr      Int
-  OsszKaloria Int
-  EtelekID    Int
-  ItalokID    Int
-  italok      italok @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
-  etelek      etelek @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
+  ID             Int          @id @default(autoincrement())
+  EtelekID       Int
+  ItalokID       Int
+  FelhasznalokID Int
+  felhasznalok   felhasznalok @relation(fields: [FelhasznalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_1")
+  italok         italok       @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
+  etelek         etelek       @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
 
   @@index([EtelekID], map: "EtelekID")
   @@index([ItalokID], map: "ItalokID")
->>>>>>> 84811934184cd717e2e88c329ea35f58b4527f67
+  @@index([FelhasznalokID], map: "FelhasznalokID")
+}
+
+model ettermek {
+  ID         Int     @id @default(autoincrement())
+  EtteremNev String  @db.VarChar(100)
+  VarosID    Int
+  Longitude  Float   @db.Float
+  Latitude   Float   @db.Float
+  varosok    varosok @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
+  menuk      menuk[]
+
+  @@index([VarosID], map: "VarosID")
+}
+
+model varosok {
+  ID        Int        @id @default(autoincrement())
+  VarosNev  String     @db.VarChar(100)
+  Longitude Float      @db.Float
+  Latitude  Float      @db.Float
+  ettermek  ettermek[]
+}
+
+model felhasznalok {
+  ID             Int        @id @default(autoincrement())
+  Email          String     @unique(map: "Email") @db.VarChar(100)
+  Jelszo         String     @db.VarChar(100)
+  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
+  rendeles       rendeles[]
+}
+
+model menuk {
+  ID         Int      @id @default(autoincrement())
+  EttermekID Int
+  MenuNev    String   @db.VarChar(100)
+  MenuAr     Int
+  EtelekID   Int
+  ItalokID   Int
+  AkciosE    Boolean
+  AkciosAr   Int
+  etelek     etelek   @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_1")
+  italok     italok   @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_2")
+  ettermek   ettermek @relation(fields: [EttermekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_3")
+
+  @@index([EtelekID, ItalokID], map: "EtelekID")
+  @@index([ItalokID], map: "ItalokID")
+  @@index([EttermekID], map: "EtteremID")
+  @@index([EttermekID], map: "EttermekID")
 }

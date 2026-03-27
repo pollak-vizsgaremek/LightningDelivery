@@ -8,6 +8,26 @@ const router = createRouter({
       component: () => import("../pages/HomeView.vue"),
       name: "home",
     },
+    {
+      path: "/restaurants",
+      component: () => import("../pages/RestaurantsPage.vue"),
+      name: "restaurants",
+    },
+    {
+      path: "/stores",
+      component: () => import("../pages/StoresPage.vue"),
+      name: "stores",
+    },
+    {
+      path: "/recommend",
+      component: () => import("../pages/recommendPage.vue"),
+      name: "recommend",
+    },
+    {
+      path: "/about",
+      component: () => import("../pages/AboutUsPage.vue"),
+      name: "about",
+    },
   ],
 });
 export default router;

@@ -1,19 +1,83 @@
 <script setup lang="ts">
 import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router"; // 1. Router importálása
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 
 const props = defineProps<{
   visible: boolean;
   type: "login" | "register";
+  hideLogin?: boolean;
 }>();
 
-const emit = defineEmits(["update:visible"]);
+const emit = defineEmits(["update:visible", "update:type"]);
 const router = useRouter(); // 2. Router példányosítása
 
 const isOpen = ref(props.visible);
-const selectedTab = ref(props.type === "login" ? 0 : 1);
+
+const baseCategories = {
+  Bejelentkezés: [
+    {
+      id: 1,
+      title: "E-mail bejelentkezés",
+      date: "2025-12-18",
+      commentCount: 0,
+      shareCount: 0,
+    },
+  ],
+  Regisztráció: [
+    {
+      id: 2,
+      title: "Fiók létrehozása",
+      date: "2025-12-18",
+      commentCount: 0,
+      shareCount: 0,
+    },
+  ],
+};
+
+const categories = computed(() => {
+  if (props.hideLogin) {
+    return { Regisztráció: baseCategories.Regisztráció };
+  }
+  return baseCategories;
+});
+
+const getInitialTabIndex = () => {
+  const keys = Object.keys(categories.value);
+  const desired = props.type === "login" ? "Bejelentkezés" : "Regisztráció";
+  const idx = keys.indexOf(desired);
+  return idx >= 0 ? idx : 0;
+};
+
+const selectedTab = ref(getInitialTabIndex());
+
+// Keep `selectedTab` in sync with incoming `type` prop
+watch(
+  () => props.type,
+  (newType) => {
+    const keys = Object.keys(categories.value);
+    const desired = newType === "login" ? "Bejelentkezés" : "Regisztráció";
+    const idx = keys.indexOf(desired);
+    selectedTab.value = idx >= 0 ? idx : 0;
+  },
+);
+
+watch(
+  () => props.hideLogin,
+  () => {
+    // When hideLogin toggles, ensure selectedTab points to a valid index
+    selectedTab.value = getInitialTabIndex();
+  },
+);
+
+// Emit updates when the user switches tabs so parent `v-model:type` stays in sync
+watch(selectedTab, (newIdx) => {
+  const keys = Object.keys(categories.value);
+  const key = keys[newIdx] || keys[0];
+  const newType = key === "Bejelentkezés" ? "login" : "register";
+  emit("update:type", newType as "login" | "register");
+});
 
 watch(
   () => props.visible,
@@ -36,27 +100,6 @@ const cancel = () => {
   emit("update:visible", false);
   router.push("/");
 };
-
-const categories = {
-  Bejelentkezés: [
-    {
-      id: 1,
-      title: "E-mail bejelentkezés",
-      date: "2025-12-18",
-      commentCount: 0,
-      shareCount: 0,
-    },
-  ],
-  Regisztráció: [
-    {
-      id: 2,
-      title: "Fiók létrehozása",
-      date: "2025-12-18",
-      commentCount: 0,
-      shareCount: 0,
-    },
-  ],
-};
 // Login form state
 const loginEmail = ref("");
 const loginPassword = ref("");
@@ -66,7 +109,35 @@ const login = () => {
     email: loginEmail.value,
     password: loginPassword.value,
   });
-  // TODO: replace with real authentication flow
+
+  //Login Fetch
+
+  fetch("http://localhost:3300/api/v1/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Email: loginEmail.value,
+      Jelszo: loginPassword.value,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("userName", data.userName);
+        router.push("/recommend");
+      } else {
+        alert("Hibás email vagy jelszó!");
+      }
+    })
+    .catch((error) => {
+      console.error("Hiba a bejelentkezés során:", error);
+      alert("Hiba történt a bejelentkezés során. Kérlek, próbáld újra!");
+    });
+
   isOpen.value = false;
   emit("update:visible", false);
 };
@@ -88,7 +159,22 @@ const register = () => {
     name: regName.value,
     email: regEmail.value,
   });
-  // TODO: replace with real registration flow
+
+  //Register Fetch
+
+  fetch("http://localhost:3300/api/v1/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Email: regEmail.value,
+      FelhasznaloNev: regName.value,
+      Jelszo: regPassword.value,
+      Jelszo2: regPasswordConfirm.value,
+    }),
+  });
+
   isOpen.value = false;
   emit("update:visible", false);
 };
@@ -132,41 +218,30 @@ const register = () => {
 
       <!-- Modal Lábléc -->
       <div class="w-full max-w-md px-2 py-4 sm:px-0 mx-auto">
-        <TabGroup>
+        <TabGroup as="div" v-model="selectedTab">
           <TabList
             class="flex space-x-1 rounded-xl border-amber-400 bg-gray-800/30 p-1 border"
           >
             <Tab
               v-for="category in Object.keys(categories)"
-              as="template"
               :key="category"
-              v-slot="{ selected }"
-              class="cursor-pointer"
+              as="button"
+              class="tab-button w-full cursor-pointer rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-400 text-gray-300 hover:bg-white/4 hover:text-white hover:scale-95"
             >
-              <button
-                :class="[
-                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5 transition-all duration-300',
-                  'focus:outline-none focus:ring-2 focus:ring-amber-400',
-                  selected
-                    ? 'bg-amber-400 text-black shadow-md transform scale-105'
-                    : 'text-gray-300 hover:bg-white/4 hover:text-white hover:scale-95',
-                ]"
-              >
-                {{ category }}
-              </button>
+              {{ category }}
             </Tab>
           </TabList>
 
           <TabPanels class="mt-2">
             <TabPanel
-              v-for="(posts, idx) in Object.values(categories)"
-              :key="idx"
+              v-for="keyName in Object.keys(categories)"
+              :key="keyName"
               :class="[
                 'rounded-xl bg-gray-900 p-4 border border-amber text-gray-300 animation-fadeIn',
-                'focus:outline-none focus:ring-2 ',
+                'focus:outline-none focus:ring-2',
               ]"
             >
-              <div v-if="idx === 0 && selectedTab === 0">
+              <div v-if="keyName === 'Bejelentkezés'">
                 <!-- Login form -->
                 <form @submit.prevent="login" class="space-y-4">
                   <div>
@@ -206,6 +281,7 @@ const register = () => {
                       Mégse
                     </button>
                     <button
+                      @click="login"
                       type="submit"
                       class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >
@@ -353,5 +429,15 @@ button {
 
 button:active {
   transform: scale(0.95);
+}
+</style>
+
+/* Active tab styling using aria-selected attribute on the rendered button */
+<style scoped>
+.tab-button[aria-selected="true"] {
+  background-color: #f59e0b; /* amber-400 */
+  color: #000;
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 </style>

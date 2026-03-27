@@ -4,7 +4,12 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-
+const navigation = [
+  { name: "Dashboard", href: "#", current: true },
+  { name: "Team", href: "#", current: false },
+  { name: "Projects", href: "#", current: false },
+  { name: "Calendar", href: "#", current: false },
+];
 const isModalVisible = ref(false);
 
 const type = ref<"login" | "register">("login");
@@ -25,5 +30,5 @@ const navigateTo = (view: string) => {
 };
 </script>
 <template>
-  <h1 class="text-left font-bold text-4xl">Felfedezés</h1>
+  <h1 class="text-left font-bold text-4xl">Üzletek</h1>
 </template>
