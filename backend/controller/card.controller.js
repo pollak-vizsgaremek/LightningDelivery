@@ -17,7 +17,7 @@ router.get("/menuk", async (_, res) => {
   res.status(200).json(cards);
 });
 
-app.post("/api/kartya", async (req, res) => {
+router.post("/api/kartya", async (req, res) => {
     const data = req.body;
 
     try {
@@ -40,11 +40,5 @@ app.post("/api/kartya", async (req, res) => {
     res.status(400).send("Hiányzó adat!")
 })
 
-app.get("/api/kasztok", async (req, res) => {
-    const data = await prisma.kaszt.findMany();
-
-    res.status(200).json(data)
-    
-})
 
 export default router

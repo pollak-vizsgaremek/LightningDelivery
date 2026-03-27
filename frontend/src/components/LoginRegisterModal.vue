@@ -169,7 +169,7 @@ const register = () => {
     },
     body: JSON.stringify({
       Email: regEmail.value,
-      FelhasznaloNev: regName.value,
+      Felhasznalonev: regName.value,
       Jelszo: regPassword.value,
       Jelszo2: regPasswordConfirm.value,
     }),
