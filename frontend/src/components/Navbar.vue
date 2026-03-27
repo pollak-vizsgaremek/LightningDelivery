@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/vue";
+import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { ref } from "vue";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import RegisterModal from "../components/LoginRegisterModal.vue";
 import LocationModal from "../components/LocationModal.vue";
@@ -175,7 +167,10 @@ const isAboutPage = () => {
         </div>
         <div class="flex items-center justify-between mt-8 mb-4">
           <RouterView />
-          <FilterModal />
+          <div class="flex flex-col items-end gap-2">
+            <FilterModal />
+            <BasketModal />
+          </div>
         </div>
       </div>
     </div>
