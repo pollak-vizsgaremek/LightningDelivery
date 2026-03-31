@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import jsonwebtoken from "jsonwebtoken";
 const prisma = new PrismaClient();
+import emailSend from "../server/nodemailer.js";
 
 const router = Router();
 
@@ -31,6 +32,8 @@ router.post("/register", async (req, res) => {
         },
       });
 
+      emailSend(Email);
+      
       res.status(201).send("Sikeres regisztráció");
     } catch (error) {
       console.error(error);
@@ -68,6 +71,7 @@ router.post("/login", async (req, res) => {
         },
       );
 
+      emailSend(Email);
       return res.status(200).json({
         accessToken,
         userId: user.ID,
