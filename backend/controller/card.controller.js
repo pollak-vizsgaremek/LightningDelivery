@@ -10,35 +10,20 @@ router.get("/ettermek", async (_, res) => {
   res.status(200).json(restaurants);
 });
 
+router.get("/etelek", async (_, res) => {
+  const etelek = await prisma.etelek.findMany();
 
-router.get("/menuk", async (_, res) => {
-  const cards = await prisma.menuk.findMany();
-
-  res.status(200).json(cards);
+  res.status(200).json(etelek);
 });
 
-router.post("/api/kartya", async (req, res) => {
-    const data = req.body;
+router.get("/menuk", async (_, res) => {
+  const data = await prisma.menuk.findMany({
+    include: {
+      etelek: true,
+      italok: true,
+    },
+  });
+  res.status(200).json(data);
+});
 
-    try {
-        await prisma.menuk.create({
-            data: {
-            EttermekID: Number(data.EttermekID),
-            MenuNev: data.kasztId,
-            MenuAr: Number(data.datum),
-            AkciosAr: Number(data.AkciosAr)
-        }
-           
-    })
-         res.status(201).send("Sikeresen hozzáadva")
-        
-    } catch (error) {
-        console.error(error);
-        res.status(400).send();
-        
-    }
-    res.status(400).send("Hiányzó adat!")
-})
-
-
-export default router
+export default router;
