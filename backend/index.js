@@ -31,3 +31,6 @@ app.use("/api/v1", cardController);
 app.listen(3300, () => {
   console.log("Elindult http://localhost:3300");
 });
+
+export default app;
+export { prisma };
