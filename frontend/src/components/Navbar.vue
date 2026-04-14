@@ -112,6 +112,7 @@ const isAboutPage = () => {
                   >
                     Regisztráció
                   </button>
+                  <!-- kívülről jövő komponensek helye (pl. kosár, szűrő) -->
                 </div>
               </div>
               <div class="hidden sm:ml-6 sm:block">
@@ -195,7 +196,9 @@ const isAboutPage = () => {
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Szolgáltatások</h1>
-        <a href="" class="hover:underline">Kiszállítás</a>
+        <RouterLink to="/delivery" class="hover:underline"
+          >Kiszállítás</RouterLink
+        >
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
