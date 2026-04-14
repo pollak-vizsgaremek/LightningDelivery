@@ -33,6 +33,11 @@ const router = createRouter({
       component: () => import("../pages/AboutUsPage.vue"),
       name: "about",
     },
+    {
+      path: "/delivery",
+      component: () => import("../pages/DeliveryPage.vue"),
+      name: "delivery",
+    },
   ],
 });
 export default router;
