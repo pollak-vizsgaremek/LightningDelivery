@@ -42,9 +42,12 @@ const isRecommendPage = () => {
 const isAboutPage = () => {
   return router.currentRoute.value.name === "about";
 };
+const isDeliveryPage = () => {
+  return router.currentRoute.value.name === "delivery";
+};
 </script>
 <template>
-  <div v-if="!isRecommendPage() && !isAboutPage()">
+  <div v-if="!isRecommendPage() && !isAboutPage() && !isDeliveryPage()">
     <div
       :class="
         isModalVisible ? 'filter blur-sm transition-filter duration-200' : ''

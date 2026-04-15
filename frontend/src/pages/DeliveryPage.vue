@@ -17,7 +17,7 @@
         <div class="absolute inset-0 opacity-40">
           <!-- <img
             "
-            alt="Kisz�ll�t�si terv koncepci�"
+            alt="Kiszállítási terv koncepció"
             class="h-full w-full object-cover"
           /> -->
           <div
@@ -29,42 +29,42 @@
         >
           <div class="max-w-2xl">
             <p class="text-amber-400 uppercase tracking-[0.35em] mb-4 text-sm">
-              Kisz�ll�t�si terv
+              Kiszállítási terv
             </p>
             <h1
               class="text-5xl font-extrabold text-white leading-tight sm:text-6xl lg:text-7xl"
             >
-              Vill�mgyors �tvonalak, okos tervez�s, minden kisz�ll�t�sra.
+              Villámgyors útvonalak, okos tervezés, minden kiszállításra.
             </h1>
             <p class="mt-6 text-gray-300 text-lg lg:text-xl leading-relaxed">
-              Ez a t�rk�p a mi f� koncepci�nk: k�zponti logisztika, eddigi
-              tapasztalat �s a v�ros leghat�konyabb �tvonalai egy helyen. N�zd
-              meg, hogyan �p�tj�k fel a kisz�ll�t�sunkat l�p�sr�l l�p�sre.
+              Ez a térkép a mi fő koncepciónk: központi logisztika, eddigi
+              tapasztalat és a város leghatékonyabb útvonalai egy helyen. Nézd
+              meg, hogyan építjük fel a kiszállításunkat lépésről lépésre.
             </p>
           </div>
           <div
             class="rounded-[2rem] border border-amber-400/30 bg-black/70 p-6 text-left shadow-2xl shadow-amber-500/10"
           >
             <h2 class="text-3xl font-bold text-amber-300 mb-4">
-              A terv pill�rei
+              A terv pillérei
             </h2>
             <ul class="space-y-4 text-gray-200">
               <li class="rounded-3xl bg-white/5 p-4">
-                <strong class="text-amber-300">Z�naalap� lefedetts�g</strong
+                <strong class="text-amber-300">Zónaalapú lefedettség</strong
                 ><br />
-                Budapest, P�cs, Debrecen �s a kiemelt �tvonalak igazi
-                vill�mgyors kisz�ll�t�sokat adnak.
+                Budapest, Pécs, Debrecen és a kiemelt útvonalak igazi
+                villámgyors kiszállításokat adnak.
               </li>
               <li class="rounded-3xl bg-white/5 p-4">
-                <strong class="text-amber-300">Val�s idej� optimaliz�l�s</strong
+                <strong class="text-amber-300">Valós idejű optimalizálás</strong
                 ><br />
-                T�bbf�le j�rm�vel �s rugalmas ter�leti megk�zel�t�ssel
-                cs�kkentj�k a v�rakoz�st.
+                Többféle járművel és rugalmas területi megközelítéssel
+                csökkentjük a várakozást.
               </li>
               <li class="rounded-3xl bg-white/5 p-4">
-                <strong class="text-amber-300">Utasbar�t �lm�ny</strong><br />
-                Minden rendel�s egyszerre c�lzott �s gyors: a c�mk�kt�l a
-                c�lvonalig k�zben tartjuk.
+                <strong class="text-amber-300">Utasbarát élmény</strong><br />
+                Minden rendelés egyszerre célzott és gyors: a címkéktől a
+                célvonalig közben tartjuk.
               </li>
             </ul>
           </div>
@@ -76,73 +76,73 @@
           class="rounded-[2rem] bg-slate-900/90 p-8 ring-1 ring-amber-400/20"
         >
           <h3 class="text-2xl font-bold text-amber-300 mb-4">
-            1. �tvonal t�rk�p
+            1. Útvonal térkép
           </h3>
           <p class="text-gray-300 leading-relaxed">
-            A f� koncepci� k�z�ppontj�ban a t�rk�p �ll. J�l l�that�ak a f�
-            v�rosok, a csatlakoz�sok �s a vill�mgyors �tmenetek az eg�sz
-            h�l�zatban.
+            A fő koncepció középpontjában a térkép áll. Jól láthatóak a fő
+            városok, a csatlakozások és a villámgyors átmenetek az egész
+            hálózatban.
           </p>
         </div>
         <div
           class="rounded-[2rem] bg-slate-900/90 p-8 ring-1 ring-amber-400/20"
         >
           <h3 class="text-2xl font-bold text-amber-300 mb-4">
-            2. Kisz�ll�t�si strat�gia
+            2. Kiszállítási stratégia
           </h3>
           <p class="text-gray-300 leading-relaxed">
-            Egyed�l�ll�an optimaliz�lt menet: a csomagok sorrendj�t, gyors
-            �tvonalakat �s k�ztes �tv�teli pontokat egyar�nt figyelembe vessz�k.
+            Egyedülállóan optimalizált menet: a csomagok sorrendjét, gyors
+            útvonalakat és köztes átvételi pontokat egyaránt figyelembe vesszük.
           </p>
         </div>
         <div
           class="rounded-[2rem] bg-slate-900/90 p-8 ring-1 ring-amber-400/20"
         >
           <h3 class="text-2xl font-bold text-amber-300 mb-4">
-            3. F� koncepci�
+            3. Fő koncepció
           </h3>
           <p class="text-gray-300 leading-relaxed">
-            Gyors, biztons�gos �s vizu�lisan er�s. Az oldal grafikai vil�ga a
-            felhaszn�l� sz�m�ra is egy�rtelm�v� teszi a kisz�ll�t�s ritmus�t.
+            Gyors, biztonságos és vizuálisan erős. Az oldal grafikai világa a
+            felhasználó számára is egyértelművé teszi a kiszállítás ritmusát.
           </p>
         </div>
       </section>
 
       <section
-        class="mt-20 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] items-center"
+        class="mt-20 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] items-center justify-center"
       >
         <div
           class="rounded-[2rem] border border-amber-400/30 bg-slate-950/90 p-10 shadow-2xl shadow-amber-500/10"
         >
           <h2 class="text-4xl font-extrabold text-amber-400 mb-6">
-            Kisz�ll�t�si terv l�p�sei
+            Kiszállítási terv lépései
           </h2>
           <div class="space-y-6 text-gray-300">
             <div>
               <h4 class="text-2xl font-bold text-white mb-2">
-                1. Ter�letfelm�r�s
+                1. Területfelmérés
               </h4>
               <p>
-                Elemzz�k a v�rosr�szek forgalm�t, a m�r megl�v� �tvonalakat �s a
-                c�lpontokat.
+                Elemezzük a városrészek forgalmát, a már meglévő útvonalakat és
+                a célpontokat.
               </p>
             </div>
             <div>
               <h4 class="text-2xl font-bold text-white mb-2">
-                2. Z�n�k �s jelent�s pontok
+                2. Zónák és jelentős pontok
               </h4>
               <p>
-                Budapest k�zpontt�l a nagyv�rosokig meghat�rozzuk a leggyorsabb
-                csatlakoz�sokat.
+                Budapest központtól a nagyvárosokig meghatározzuk a leggyorsabb
+                csatlakozásokat.
               </p>
             </div>
             <div>
               <h4 class="text-2xl font-bold text-white mb-2">
-                3. Vill�mgyors k�zbes�t�s
+                3. Villámgyors közbesítés
               </h4>
               <p>
-                Az �tvonalakat �lland�an finom�tjuk, hogy minden rendel�s a
-                lehet� leghamarabb �rkezzen meg.
+                Az útvonalakat állandóan finomítjuk, hogy minden rendelés a
+                lehető leghamarabb érkezzen meg.
               </p>
             </div>
           </div>
@@ -152,7 +152,7 @@
         >
           <!-- <img
             src="/images/delivery-plan-concept.png"
-            alt="Kisz�ll�t�si terv t�rk�pe"
+            alt="Kiszállítási terv térképe"
             class="h-full w-full object-cover opacity-90"
           /> -->
           <div
@@ -160,18 +160,53 @@
           ></div>
           <div class="absolute bottom-8 left-8 text-left text-white">
             <p class="text-sm uppercase tracking-[0.3em] text-amber-400 mb-2">
-              F� koncepci�
+              Fő koncepció
             </p>
             <h3 class="text-3xl font-bold">
-              A sz�ll�t�si h�l�zat k�zponti eleme
+              A szállítási hálózat központi eleme
             </h3>
             <p class="mt-3 max-w-sm text-gray-200">
-              Ez a grafika mutatja a LightningDelivery er�ss�g�t: egyszer�,
-              l�tv�nyos �s azonnal �rthet�.
+              Ez a grafika mutatja a LightningDelivery erősségét: egyszerű,
+              látványos és azonnal érthető.
             </p>
           </div>
         </div>
       </section>
     </div>
   </div>
+  <footer
+    class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
+  >
+    <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
+      <div>
+        <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
+        <p>Készítette: A MARADÉK</p>
+      </div>
+    </RouterLink>
+    <div>
+      <h1 class="text-l font-bold mb-3">Legyél LightningDelivery partner</h1>
+      <RouterLink to="/recommend" class="hover:underline"
+        >Kiszállítóként</RouterLink
+      >
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Cég</h1>
+      <RouterLink to="/about" class="hover:underline">Rólunk</RouterLink>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Szolgáltatások</h1>
+      <RouterLink to="/delivery" class="hover:underline"
+        >Kiszállítás</RouterLink
+      >
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
+      <a href="" class="hover:underline">Gyakori kérdések</a>
+    </div>
+    <div>
+      <h1 class="text-l font-bold mb-3">Kövess minket</h1>
+      <a href="" class="hover:underline">instagram</a><br />
+      <a href="" class="hover:underline">facebook</a>
+    </div>
+  </footer>
 </template>
