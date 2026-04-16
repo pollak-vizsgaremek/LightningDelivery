@@ -19,6 +19,7 @@ router.get("/etelek", async (_, res) => {
 router.get("/menuk", async (_, res) => {
   const data = await prisma.menuk.findMany({
     include: {
+      ettermek: true,
       etelek: true,
       italok: true,
     },
@@ -27,3 +28,4 @@ router.get("/menuk", async (_, res) => {
 });
 
 export default router;
+
