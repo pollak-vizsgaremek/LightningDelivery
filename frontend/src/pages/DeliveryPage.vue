@@ -5,7 +5,6 @@
   <div class="min-h-screen bg-black text-white">
     <div class="container mx-auto px-6 py-10">
       <RouterLink to="/" class="inline-flex items-center gap-3 mb-10">
-        <!-- <img src="/images/logo.png" alt="LightningDelivery" class="h-16 w-16" /> -->
         <span class="text-2xl font-extrabold text-amber-400"
           >LightningDelivery</span
         >
@@ -36,11 +35,11 @@
             >
               Villámgyors útvonalak, okos tervezés, minden kiszállításra.
             </h1>
-            <p class="mt-6 text-gray-300 text-lg lg:text-xl leading-relaxed">
+            <!-- <p class="mt-6 text-gray-300 text-lg lg:text-xl leading-relaxed">
               Ez a térkép a mi fő koncepciónk: központi logisztika, eddigi
               tapasztalat és a város leghatékonyabb útvonalai egy helyen. Nézd
               meg, hogyan építjük fel a kiszállításunkat lépésről lépésre.
-            </p>
+            </p> -->
           </div>
           <div
             class="rounded-[2rem] border border-amber-400/30 bg-black/70 p-6 text-left shadow-2xl shadow-amber-500/10"
@@ -52,8 +51,9 @@
               <li class="rounded-3xl bg-white/5 p-4">
                 <strong class="text-amber-300">Zónaalapú lefedettség</strong
                 ><br />
-                Budapest, Pécs, Debrecen és a kiemelt útvonalak igazi
-                villámgyors kiszállításokat adnak.
+                Csongrád megye főbb városaira koncentrálunk, hogy a leggyorsabb
+                kiszállítást biztosítsuk. Ilyenek Szeged, Hódmezővásárhely,
+                Makó, Szentes stb..
               </li>
               <li class="rounded-3xl bg-white/5 p-4">
                 <strong class="text-amber-300">Valós idejű optimalizálás</strong
@@ -132,8 +132,9 @@
                 2. Zónák és jelentős pontok
               </h4>
               <p>
-                Budapest központtól a nagyvárosokig meghatározzuk a leggyorsabb
-                csatlakozásokat.
+                Csongrád megyében a leggyorsabb csatlakozási pontokat és zónákat
+                határozzuk meg, hogy a kiszállítás mindig a leghatékonyabb
+                legyen.
               </p>
             </div>
             <div>
@@ -150,18 +151,18 @@
         <div
           class="relative rounded-[2rem] overflow-hidden border border-amber-400/20 bg-black/70"
         >
-          <!-- <img
-            src="/images/delivery-plan-concept.png"
+          <img
+            src="/images/GPSGod.png"
             alt="Kiszállítási terv térképe"
             class="h-full w-full object-cover opacity-90"
-          /> -->
+          />
           <div
             class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/0"
           ></div>
           <div class="absolute bottom-8 left-8 text-left text-white">
-            <p class="text-sm uppercase tracking-[0.3em] text-amber-400 mb-2">
+            <!-- <p class="text-sm uppercase tracking-[0.3em] text-amber-400 mb-2">
               Fő koncepció
-            </p>
+            </p> -->
             <h3 class="text-3xl font-bold">
               A szállítási hálózat központi eleme
             </h3>

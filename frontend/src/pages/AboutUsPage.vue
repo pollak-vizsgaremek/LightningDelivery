@@ -8,6 +8,12 @@
     <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
       <img src="/images/logo.png" class="h-20 w-20" />
     </RouterLink>
+    <!-- <RouterLink to="/" class="inline-flex items-left gap-3 mb-10">
+      <span class="text-2xl font-extrabold text-amber-400"
+        >LightningDelivery</span
+      >
+    </RouterLink> -->
+
     <h1
       class="text-4xl text-shadow-yellow-800 text-shadow-lg lg:text-5xl font-extrabold text-amber-400 mb-4"
     >
@@ -190,7 +196,7 @@
       </div>
     </section>
     <footer
-      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
+      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-4 gap-4"
     >
       <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
         <div>
@@ -213,15 +219,6 @@
         <RouterLink to="/delivery" class="hover:underline"
           >Kiszállítás</RouterLink
         >
-      </div>
-      <div>
-        <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
-        <a href="" class="hover:underline">Gyakori kérdések</a>
-      </div>
-      <div>
-        <h1 class="text-l font-bold mb-3">Kövess minket</h1>
-        <a href="" class="hover:underline">instagram</a><br />
-        <a href="" class="hover:underline">facebook</a>
       </div>
     </footer>
   </div>

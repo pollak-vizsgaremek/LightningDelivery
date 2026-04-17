@@ -87,6 +87,15 @@ const isDeliveryPage = () => {
                     src="/images/logo.png"
                     alt="Your Company"
                   />
+                  <!-- <RouterLink
+                    to="/"
+                    class="inline-flex items-center mt-10 gap-3 mb-10"
+                  > -->
+                  <!-- <img src="/images/logo.png" alt="LightningDelivery" class="h-16 w-16" /> -->
+                  <!-- <span class="text-2xl font-extrabold text-amber-400"
+                      >LightningDelivery</span
+                    >
+                  </RouterLink> -->
                   <!-- Lokáció megadása -->
                   <div class="place-self-center mt-5">
                     <LocationModal />
