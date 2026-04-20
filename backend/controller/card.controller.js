@@ -5,7 +5,11 @@ const router = Router();
 const prisma = new PrismaClient();
 
 router.get("/ettermek", async (_, res) => {
-  const restaurants = await prisma.ettermek.findMany();
+  const restaurants = await prisma.ettermek.findMany({
+    include: {
+      varosok: true,
+    },
+  });
 
   res.status(200).json(restaurants);
 });
@@ -28,4 +32,3 @@ router.get("/menuk", async (_, res) => {
 });
 
 export default router;
-
