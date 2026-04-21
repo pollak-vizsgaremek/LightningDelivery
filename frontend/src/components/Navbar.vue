@@ -214,12 +214,12 @@ const isDeliveryPage = () => {
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
-        <a href="" class="hover:underline">Gyakori kérdések</a>
+        <a href="https://www.gyakorikerdesek.hu/" target="_blank" class="hover:underline">Gyakori kérdések</a>
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Kövess minket</h1>
-        <a href="" class="hover:underline">instagram</a><br />
-        <a href="" class="hover:underline">facebook</a>
+        <a href="https://www.instagram.com/lightning_delivery67/" target="_blank" class="hover:underline">Instagram</a><br />
+        <a href="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU" target="_blank" class="hover:underline">Facebook</a>
       </div>
     </footer>
     <RegisterModal

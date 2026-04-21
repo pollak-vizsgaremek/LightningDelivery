@@ -28,25 +28,30 @@ const userLongitude = ref<number | null>(null);
 
 // Városok koordinátái (valós koordináták)
 const cityCoordinates: Record<string, { lat: number; lon: number }> = {
-  Budapest: { lat: 47.4979, lon: 19.0402 },
-  Debrecen: { lat: 47.5316, lon: 21.6273 },
+  Hódmezővásárhely: { lat: 46.4167, lon: 20.3188 },
+  Makó: { lat: 46.2178, lon: 20.4781 },
   Szeged: { lat: 46.253, lon: 20.1414 },
-  Pécs: { lat: 46.0727, lon: 18.2313 },
-  Győr: { lat: 47.6875, lon: 17.6558 },
-  Miskolc: { lat: 48.0976, lon: 20.7749 },
+  Szentes: { lat: 46.6583, lon: 20.2619 },
+  Csongrád: { lat: 46.7108, lon: 20.1419 },
+  Mórahalom: { lat: 46.2181, lon: 19.8867 },
+  Kistelek: { lat: 46.4722, lon: 19.9797 },
+  Mindszent: { lat: 46.5231, lon: 20.1878 },
+  Sándorfalva: { lat: 46.3617, lon: 20.1039 },
+
+  //szeged, hódmezőv, makó, szentes, csongrád, mórahalom, kistelek, mindszent, sándorfalva
 };
 
 const locations = ref<Location[]>([
   {
     name: "Csongrád",
-    address: "Budapest, Magyarország",
+    address: "Csongrád, Magyarország",
     distance: "0 km",
     latitude: 46.7119,
     longitude: 20.1411,
   },
   {
-    name: "Debrecen",
-    address: "Debrecen, Magyarország",
+    name: "Hódmezővásárhely",
+    address: "Hódmezővásárhely, Magyarország",
     distance: "220 km",
     latitude: 47.5316,
     longitude: 21.6273,
@@ -59,25 +64,39 @@ const locations = ref<Location[]>([
     longitude: 20.1414,
   },
   {
-    name: "Pécs",
-    address: "Pécs, Magyarország",
+    name: "Makó",
+    address: "Makó, Magyarország",
     distance: "200 km",
-    latitude: 46.0727,
-    longitude: 18.2313,
+    latitude: 46.2178,
+    longitude: 20.4781,
   },
   {
-    name: "Győr",
-    address: "Győr, Magyarország",
+    name: "Mórahalom",
+    address: "Mórahalom, Magyarország",
     distance: "120 km",
-    latitude: 47.6875,
-    longitude: 17.6558,
+    latitude: 46.2181,
+    longitude: 19.8867,
   },
   {
-    name: "Miskolc",
-    address: "Miskolc, Magyarország",
+    name: "Kistelek",
+    address: "Kistelek, Magyarország",
     distance: "240 km",
-    latitude: 48.0976,
-    longitude: 20.7749,
+    latitude: 46.4722,
+    longitude: 19.9797,
+  },
+  {
+    name: "Mindszent",
+    address: "Mindszent, Magyarország",
+    distance: "240 km",
+    latitude: 46.5231,
+    longitude: 20.1878,
+  },
+  {
+    name: "Sándorfalva",
+    address: "Sándorfalva, Magyarország",
+    distance: "240 km",
+    latitude: 46.3617,
+    longitude: 20.1039,
   },
 ]);
 
