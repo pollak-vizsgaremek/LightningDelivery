@@ -19,7 +19,9 @@ onMounted(() => {
     <div class="mb-10">
       <h1 class="text-left font-bold text-4xl">Éttermek</h1>
     </div>
-    <section class="flex flex-row flex-wrap gap-20">
+    <section
+      class="flex flex-row flex-wrap gap-20 max-w-full px-4 items-start max-h-screen pb-70 overflow-auto"
+    >
       <Card
         v-for="value in restaurants"
         :key="value.id"
