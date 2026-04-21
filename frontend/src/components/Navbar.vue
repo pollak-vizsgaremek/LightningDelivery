@@ -169,12 +169,6 @@ const isDeliveryPage = () => {
               >
                 Éttermek
               </li>
-              <li
-                @click="navigateTo('stores')"
-                class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 mr-2 px-4 rounded-4xl transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-orange-400/50"
-              >
-                Üzletek
-              </li>
             </ul>
           </div>
         </div>
