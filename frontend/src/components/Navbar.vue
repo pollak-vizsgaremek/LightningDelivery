@@ -153,7 +153,7 @@ const isDeliveryPage = () => {
           </div>
         </DisclosurePanel>
       </Disclosure>
-      <div class="bg-black text-white p-4 h-screen w-full">
+      <div class="bg-black text-white p-4 min-h-screen w-full">
         <div class="items-center justify-center flex bg-black w-full h-1/8">
           <div class="bg-black h-full w-2/5">
             <ul class="items-center justify-center flex">

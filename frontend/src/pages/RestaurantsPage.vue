@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { on } from "events";
+
 import Card from "../components/Card.vue";
 import { ref, onMounted } from "vue";
 
@@ -20,7 +20,7 @@ onMounted(() => {
       <h1 class="text-left font-bold text-4xl">Éttermek</h1>
     </div>
     <section
-      class="flex flex-row flex-wrap gap-20 max-w-full px-4 items-start max-h-screen pb-70 overflow-auto"
+      class="flex flex-row flex-wrap gap-20 max-w-full px-4 items-start mb-10"
     >
       <Card
         v-for="value in restaurants"
