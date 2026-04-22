@@ -150,10 +150,10 @@
           class="text-gray-300 lg:w-2/3 text-shadow-black text-shadow-md mb-6 font-bold text-xl text-center mx-auto"
         >
           Az arcok mögött! 👥 Mi vagyunk azok a srácok és lányok, akik
-          reggelente felpattannak a bringára vagy beülnek az autóba, hogy a
-          város minden sarkába eljuttassuk az ételt vagy a csomagokat. Együtt
-          dolgozunk, nevetünk, és minden nap új kalandot hoz. Csatlakozz
-          hozzánk, és légy részese ennek a dinamikus csapatnak!
+          reggelente felpattannak a bringára vagy beülnek az autóba, hogy
+          Csongrád vármegye minden sarkába eljuttassuk az ételt vagy a
+          csomagokat. Együtt dolgozunk, nevetünk, és minden nap új kalandot hoz.
+          Csatlakozz hozzánk, és légy részese ennek a dinamikus csapatnak!
         </p>
       </div>
       <div class="lg:w-4/8 flex z-1 justify-center">
@@ -226,8 +226,18 @@
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Kövess minket</h1>
-        <a href="" class="hover:underline">instagram</a><br />
-        <a href="" class="hover:underline">facebook</a>
+        <a
+          href="https://www.instagram.com/lightning_delivery67/"
+          target="_blank"
+          class="hover:underline"
+          >Instagram</a
+        ><br />
+        <a
+          href="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU"
+          target="_blank"
+          class="hover:underline"
+          >Facebook</a
+        >
       </div>
     </footer>
   </div>

@@ -92,4 +92,10 @@
       </ul>
     </div>
   </div>
+  <div class="mt-10 font-semibold text-lg font-serif">
+    <h1>
+      Fedezd fel a számodra legjobb étkezési lehetőségeket és használd a szűrőt
+      a pontos kereséshez!
+    </h1>
+  </div>
 </template>

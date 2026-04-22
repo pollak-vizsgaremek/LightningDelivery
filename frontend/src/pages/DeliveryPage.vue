@@ -206,8 +206,30 @@
     </div>
     <div>
       <h1 class="text-l font-bold mb-3">Kövess minket</h1>
-      <a href="" class="hover:underline">instagram</a><br />
-      <a href="" class="hover:underline">facebook</a>
+      <!-- <RouterLink
+        to="https://www.instagram.com/lightning_delivery67/"
+        target="_blank"
+        class="hover:underline"
+        >Instagram</RouterLink
+      ><br />
+      <RouterLink
+        to="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU"
+        target="_blank"
+        class="hover:underline"
+        >Facebook</RouterLink
+      > -->
+      <a
+        href="https://www.instagram.com/lightning_delivery67/"
+        target="_blank"
+        class="hover:underline"
+        >Instagram</a
+      ><br />
+      <a
+        href="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU"
+        target="_blank"
+        class="hover:underline"
+        >Facebook</a
+      >
     </div>
   </footer>
 </template>

@@ -81,11 +81,11 @@
         <p
           class="text-gray-300 text-shadow-black lg:w-2/3 text-shadow-md mb-6 font-bold text-xl text-center mx-auto"
         >
-          Hé, Te! Szeretsz pörögni? Akkor köztünk a helyed! 🚀 A Woltnál nem
-          csak ételt szállítunk, hanem a szabadság élményét – és ebben a
-          gyorsaság a legfőbb fegyverünk. Nálunk te vagy az utcák királya: akkor
-          indulsz, amikor akarsz, és úgy tekered a bringát vagy nyomod a gázt,
-          ahogy a lendületed diktálja.
+          Hé, Te! Szeretsz pörögni? Akkor köztünk a helyed! 🚀 A
+          LightningDelivery-nél nem csak ételt szállítunk, hanem a szabadság
+          élményét – és ebben a gyorsaság a legfőbb fegyverünk. Nálunk te vagy
+          az utcák királya: akkor indulsz, amikor akarsz, és úgy tekered a
+          bringát vagy nyomod a gázt, ahogy a lendületed diktálja.
         </p>
       </div>
     </section>
@@ -108,9 +108,9 @@
         >
           Pénz beszél, kutya ugat! 💸 Unod a rejtett költségeket és a
           követhetetlen kifizetéseket? Nálunk nincs sötétben tapogatózás: a
-          Woltnál az átláthatóság éppolyan alapvető, mint a gyorsaság. Pontosan
-          tudni fogod, miért dolgozol, és minden fillért nyomon követhetsz a
-          saját kijelződön.
+          LightningDelivery-nél az átláthatóság éppolyan alapvető, mint a
+          gyorsaság. Pontosan tudni fogod, miért dolgozol, és minden fillért
+          nyomon követhetsz a saját kijelződön.
         </p>
         <!-- <div class="flex gap-4 items-center justify-center text-center">
           <a
@@ -163,11 +163,11 @@
           class="text-gray-300 text-shadow-black lg:w-2/3 text-shadow-md mb-6 font-bold text-xl text-center mx-auto"
         >
           Páholyülés a város felett – nálunk te vagy a térkép ura! 📍 Felejtsd
-          el a „merre járhat a futár?” típusú ideges telefonokat! A Woltnál a
-          valós idejű GPS-követés nem csak egy kényelmi funkció, hanem a te
-          legfőbb szövetségesed a zökkenőmentes munkában. Itt mindenki pontosan
-          látja a célt, te pedig fókuszálhatsz arra, amiben a legjobb vagy: a
-          vezetésre.
+          el a „merre járhat a futár?” típusú ideges telefonokat! A
+          LightningDelivery-nél a valós idejű GPS-követés nem csak egy kényelmi
+          funkció, hanem a te legfőbb szövetségesed a zökkenőmentes munkában.
+          Itt mindenki pontosan látja a célt, te pedig fókuszálhatsz arra,
+          amiben a legjobb vagy: a vezetésre.
         </p>
       </div>
     </section>
@@ -255,8 +255,18 @@
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Kövess minket</h1>
-        <a href="" class="hover:underline">instagram</a><br />
-        <a href="" class="hover:underline">facebook</a>
+        <a
+          href="https://www.instagram.com/lightning_delivery67/"
+          target="_blank"
+          class="hover:underline"
+          >Instagram</a
+        ><br />
+        <a
+          href="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU"
+          target="_blank"
+          class="hover:underline"
+          >Facebook</a
+        >
       </div>
     </footer>
     <!-- Partner CTA -->

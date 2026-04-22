@@ -187,7 +187,7 @@ const isDeliveryPage = () => {
       <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
         <div>
           <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
-          <p>Készítette: A MARADÉK</p>
+          <p>Készítették: A Feláldozhatók</p>
         </div>
       </RouterLink>
       <div>
@@ -217,7 +217,7 @@ const isDeliveryPage = () => {
       </div>
       <div>
         <h1 class="text-l font-bold mb-3">Kövess minket</h1>
-        <RouterLink
+        <!-- <RouterLink
           to="https://www.instagram.com/lightning_delivery67/"
           target="_blank"
           class="hover:underline"
@@ -228,6 +228,18 @@ const isDeliveryPage = () => {
           target="_blank"
           class="hover:underline"
           >Facebook</RouterLink
+        > -->
+        <a
+          href="https://www.instagram.com/lightning_delivery67/"
+          target="_blank"
+          class="hover:underline"
+          >Instagram</a
+        ><br />
+        <a
+          href="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU"
+          target="_blank"
+          class="hover:underline"
+          >Facebook</a
         >
       </div>
     </footer>
