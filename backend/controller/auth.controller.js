@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
       });
 
       emailSend(Email);
-      
+
       res.status(201).send("Sikeres regisztráció");
     } catch (error) {
       console.error(error);

@@ -8,6 +8,7 @@ router.get("/ettermek", async (_, res) => {
   const restaurants = await prisma.ettermek.findMany({
     include: {
       varosok: true,
+      etteremtipus: true,
     },
   });
 
