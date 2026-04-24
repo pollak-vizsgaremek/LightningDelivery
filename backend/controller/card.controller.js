@@ -12,7 +12,15 @@ router.get("/ettermek", async (_, res) => {
     },
   });
 
-  res.status(200).json(restaurants);
+  // Konvertáld a bináris képeket base64-re
+  const restaurantsWithBase64 = restaurants.map((restaurant) => ({
+    ...restaurant,
+    EtteremKep: restaurant.EtteremKep
+      ? Buffer.from(restaurant.EtteremKep).toString("base64")
+      : null,
+  }));
+
+  res.status(200).json(restaurantsWithBase64);
 });
 
 router.get("/etelek", async (_, res) => {

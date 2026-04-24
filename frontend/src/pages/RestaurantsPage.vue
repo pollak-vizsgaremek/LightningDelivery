@@ -27,6 +27,7 @@ onMounted(() => {
         :name="value.EtteremNev"
         :avgDeliveryTime="value.AtlagosSzallitasiIdo"
         :Cityname="value.varosok.VarosNev"
+        :EtteremKep="value.EtteremKep"
       />
     </section>
   </div>
