@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
@@ -26,81 +26,33 @@ const locationError = ref("");
 const userLatitude = ref<number | null>(null);
 const userLongitude = ref<number | null>(null);
 
-// Városok koordinátái (valós koordináták)
-const cityCoordinates: Record<string, { lat: number; lon: number }> = {
-  Hódmezővásárhely: { lat: 46.4167, lon: 20.3188 },
-  Makó: { lat: 46.2178, lon: 20.4781 },
-  Szeged: { lat: 46.253, lon: 20.1414 },
-  Szentes: { lat: 46.6583, lon: 20.2619 },
-  Csongrád: { lat: 46.7108, lon: 20.1419 },
-  Mórahalom: { lat: 46.2181, lon: 19.8867 },
-  Kistelek: { lat: 46.4722, lon: 19.9797 },
-  Mindszent: { lat: 46.5231, lon: 20.1878 },
-  Sándorfalva: { lat: 46.3617, lon: 20.1039 },
+// Városok betöltése az API-ból
+const locations = ref<Location[]>([]);
 
-  //szeged, hódmezőv, makó, szentes, csongrád, mórahalom, kistelek, mindszent, sándorfalva
+const fetchCities = async () => {
+  try {
+    const response   = await fetch("http://localhost:3300/api/v1/cities");
+    if (response.ok) {
+      const cities = await response.json();
+      locations.value = cities.map((city: any) => ({
+        name: city.VarosNev,
+        address: `${city.VarosNev}, Magyarország`,
+        distance: "0 km",
+        latitude: city.Latitude,
+        longitude: city.Longitude,
+      }));
+    }
+  } catch (error) {
+    console.error("Hiba a városok betöltésekor:", error);
+    locations.value = [];
+  }
 };
 
-const locations = ref<Location[]>([
-  {
-    name: "Csongrád",
-    address: "Csongrád, Magyarország",
-    distance: "0 km",
-    latitude: 46.7119,
-    longitude: 20.1411,
-  },
-  {
-    name: "Hódmezővásárhely",
-    address: "Hódmezővásárhely, Magyarország",
-    distance: "220 km",
-    latitude: 47.5316,
-    longitude: 21.6273,
-  },
-  {
-    name: "Szeged",
-    address: "Szeged, Magyarország",
-    distance: "180 km",
-    latitude: 46.253,
-    longitude: 20.1414,
-  },
-  {
-    name: "Makó",
-    address: "Makó, Magyarország",
-    distance: "200 km",
-    latitude: 46.2178,
-    longitude: 20.4781,
-  },
-  {
-    name: "Mórahalom",
-    address: "Mórahalom, Magyarország",
-    distance: "120 km",
-    latitude: 46.2181,
-    longitude: 19.8867,
-  },
-  {
-    name: "Kistelek",
-    address: "Kistelek, Magyarország",
-    distance: "240 km",
-    latitude: 46.4722,
-    longitude: 19.9797,
-  },
-  {
-    name: "Mindszent",
-    address: "Mindszent, Magyarország",
-    distance: "240 km",
-    latitude: 46.5231,
-    longitude: 20.1878,
-  },
-  {
-    name: "Sándorfalva",
-    address: "Sándorfalva, Magyarország",
-    distance: "240 km",
-    latitude: 46.3617,
-    longitude: 20.1039,
-  },
-]);
+onMounted(() => {
+  fetchCities();
+});
 
-// Haversine formula - távolságszámítás két koordináta között (km-ben)
+// Haversine formula - távolságszámítás két koordináta között (km-ben) - távolságszámítás két koordináta között (km-ben)
 const calculateDistance = (
   lat1: number,
   lon1: number,

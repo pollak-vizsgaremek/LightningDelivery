@@ -7,6 +7,7 @@ import authController from "./controller/auth.controller.js";
 import rendelesController from "./controller/rendeles.controller.js";
 import cardController from "./controller/card.controller.js";
 import filterController from "./controller/filter.controller.js";
+import cityController from "./controller/city.controller.js";
 
 const app = e();
 const prisma = new PrismaClient();
@@ -30,6 +31,8 @@ app.use("/api/v1", rendelesController);
 app.use("/api/v1", cardController);
 
 app.use("/api/v1", filterController);
+
+app.use("/api/v1", cityController);
 
 app.listen(3300, () => {
   console.log("Elindult http://localhost:3300");
