@@ -1,6 +1,8 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="flex items-center text-center mt-5 justify-center w-full">
+  <div
+    class="flex items-center text-shadow-lg text-shadow-gray-600 text-center mt-5 justify-center w-full"
+  >
     <div
       class="lg:w-1/8 h-45 w-full rounded-3xl border border-gray-500/20 bg-black/20 font-semibold text-2xl text-center cursor-pointer relative overflow-hidden group shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-amber-500/30"
     >
