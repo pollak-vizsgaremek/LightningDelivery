@@ -237,7 +237,7 @@ const register = () => {
               v-for="keyName in Object.keys(categories)"
               :key="keyName"
               :class="[
-                'rounded-xl bg-gray-900 p-4 border border-amber text-gray-300 animation-fadeIn',
+                'rounded-xl bg-gray-900 p-4 border border-amber  text-gray-300 animation-fadeIn',
                 'focus:outline-none focus:ring-2',
               ]"
             >

@@ -26,14 +26,19 @@ const locationError = ref("");
 const userLatitude = ref<number | null>(null);
 const userLongitude = ref<number | null>(null);
 
+// Kiválasztott város koordinátái
+const selectedLocationLat = ref<number | null>(null);
+const selectedLocationLon = ref<number | null>(null);
+
 // Városok betöltése az API-ból
 const locations = ref<Location[]>([]);
 
 const fetchCities = async () => {
   try {
-    const response   = await fetch("http://localhost:3300/api/v1/cities");
+    const response = await fetch("http://localhost:3300/api/v1/cities");
     if (response.ok) {
       const cities = await response.json();
+      console.log("Városok az API-ból:", cities);
       locations.value = cities.map((city: any) => ({
         name: city.VarosNev,
         address: `${city.VarosNev}, Magyarország`,
@@ -41,6 +46,7 @@ const fetchCities = async () => {
         latitude: city.Latitude,
         longitude: city.Longitude,
       }));
+      console.log("Feldolgozott városok:", locations.value);
     }
   } catch (error) {
     console.error("Hiba a városok betöltésekor:", error);
@@ -74,18 +80,24 @@ const calculateDistance = (
 
 // Frissítsd a távolságokat az aktuális felhasználó pozíciója alapján
 const updateDistances = () => {
-  if (userLatitude.value !== null && userLongitude.value !== null) {
+  // Ha kiválasztott város van, abból számítjuk a távolságokat
+  // Ha nem, akkor a felhasználó pozícióból
+  let refLat = selectedLocationLat.value ?? userLatitude.value;
+  let refLon = selectedLocationLon.value ?? userLongitude.value;
+
+  if (refLat !== null && refLon !== null) {
     locations.value.forEach((location) => {
       if (location.latitude && location.longitude) {
         const distance = calculateDistance(
-          userLatitude.value!,
-          userLongitude.value!,
+          refLat!,
+          refLon!,
           location.latitude,
           location.longitude,
         );
         location.distance = `${distance} km`;
       }
     });
+    console.log("Távolságok frissítve:", locations.value);
   }
 };
 
@@ -100,6 +112,21 @@ const filteredLocations = computed(() => {
 
 const selectLocation = (location: string) => {
   selectedLocation.value = location;
+
+  // Megkeressük a kiválasztott város koordinátáit
+  const selectedCity = locations.value.find((loc) => loc.name === location);
+  if (selectedCity && selectedCity.latitude && selectedCity.longitude) {
+    selectedLocationLat.value = selectedCity.latitude;
+    selectedLocationLon.value = selectedCity.longitude;
+    console.log(
+      `Kiválasztott város: ${location}, koordináták:`,
+      selectedCity.latitude,
+      selectedCity.longitude,
+    );
+    // Frissítjük az összes város távolságát ebből a pontból
+    updateDistances();
+  }
+
   isOpen.value = false;
   searchInput.value = "";
   customLocationInput.value = "";
@@ -111,6 +138,7 @@ const toggleModal = () => {
   if (isOpen.value) {
     searchInput.value = "";
     locationError.value = "";
+    // Automatikusan lekérjük a jelenlegi helyzetet a modal megnyitásakor
   }
 };
 
@@ -210,6 +238,10 @@ const getCurrentLocation = () => {
       // Tároljuk a felhasználó pozícióját
       userLatitude.value = latitude;
       userLongitude.value = longitude;
+
+      // Reseteljük a kiválasztott város koordinátáit
+      selectedLocationLat.value = null;
+      selectedLocationLon.value = null;
 
       // Frissítsd az összes távolságot
       updateDistances();
@@ -326,19 +358,12 @@ const getCurrentLocation = () => {
             </button>
           </div>
 
-          <!-- Search Input -->
+          <!-- Saját lokáció megadása -->
           <div class="p-4 border-b border-gray-700 space-y-3">
-            <div class="relative flex items-center">
-              <MagnifyingGlassIcon
-                class="absolute left-3 w-5 h-5 text-gray-500"
-              />
-            </div>
-
-            <!-- Saját lokáció megadása -->
             <div class="space-y-2">
               <p class="text-xs text-gray-400 font-medium">Saját lokáció:</p>
               <div class="flex gap-2">
-                <input
+                <!-- <input
                   v-model="customLocationInput"
                   type="text"
                   placeholder="Add meg a helyedet (pl. Kazincbarcika)"
@@ -350,7 +375,7 @@ const getCurrentLocation = () => {
                   class="bg-amber-600 cursor-pointer hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition-colors duration-200 font-medium text-sm"
                 >
                   Hozzáadás
-                </button>
+                </button> -->
               </div>
 
               <!-- Jelenlegi hely gomb -->
@@ -370,6 +395,21 @@ const getCurrentLocation = () => {
               >
                 {{ locationError }}
               </div>
+            </div>
+          </div>
+
+          <!-- Search Input for Locations -->
+          <div class="px-4 py-3 border-b border-gray-700">
+            <div class="relative flex items-center">
+              <MagnifyingGlassIcon
+                class="absolute left-3 w-5 h-5 text-gray-500"
+              />
+              <input
+                v-model="searchInput"
+                type="text"
+                placeholder="Város keresése..."
+                class="w-full bg-gray-800 text-white rounded-lg pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all duration-200 text-sm"
+              />
             </div>
           </div>
 
