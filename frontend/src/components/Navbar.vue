@@ -173,6 +173,7 @@ const isDeliveryPage = () => {
           </div>
         </div>
         <div class="flex flex-col items-center justify-between mt-8 mb-4">
+          //Kosármodal elkészítése és helyezése a navbarba
           <div class="flex flex-col items-end gap-2 w-full">
             <FilterModal />
             <BasketModal />
