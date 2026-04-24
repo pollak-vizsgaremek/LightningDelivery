@@ -65,11 +65,12 @@ model varosok {
 }
 
 model felhasznalok {
-  ID             Int        @id @default(autoincrement())
-  Email          String     @unique(map: "Email") @db.VarChar(100)
-  Jelszo         String     @db.VarChar(100)
-  Felhasznalonev String     @unique(map: "Felhasznalonev") @db.VarChar(100)
-  rendeles       rendeles[]
+  ID                 Int        @id @default(autoincrement())
+  Email              String     @unique(map: "Email") @db.VarChar(100)
+  Jelszo             String     @db.VarChar(100)
+  Felhasznalonev     String     @unique(map: "Felhasznalonev") @db.VarChar(100)
+  PasswordResetToken String?    @db.VarChar(50)
+  rendeles           rendeles[]
 }
 
 model menuk {

@@ -10,13 +10,14 @@ host: "smtp.gmail.com",
 secure: true,
 });
 
-function emailSend(email) {
+function emailSend(email, link) {
   transporter.sendMail(
     {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Test message",
-      text: "I hope this message gets delivered!",
+      text: `A jelszó helyreállítási link: ${link}`
+      ,
     },
     (err, info) => {
       if (err) {

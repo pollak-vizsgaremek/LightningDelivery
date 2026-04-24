@@ -86,4 +86,61 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post('/forgot-password', async (req, res) => {
+  const { Email } = req.body;
+  const { id } = req.params;
+
+  if (!Email) {
+    return res.status(400).send("Email cím megadása kötelező.");
+  }
+
+  const user = await prisma.felhasznalok.findUnique({ where: { Email: Email } });
+
+  if (!user) return res.status(404).send("Nincs ilyen felhasználó.");
+
+  const secret = process.env.JWT_SECRET + user.Jelszo;
+  const token = jsonwebtoken.sign(
+    { id: user.ID, email: user.Email }, 
+    secret, 
+    { expiresIn: '15m' }
+  );
+  await prisma.felhasznalok.update({
+      where: { Email: Email },
+      data: { PasswordResetToken: token }
+    });
+
+  const link = `http://localhost:3000/reset-password/${user.ID}/${token}`;
+  
+  console.log("Link:", link); 
+  res.send("A visszaállító linket elküldtük!");
+  emailSend(Email, link)
+});
+
+router.post('/reset-password/:id/:token', async (req, res) => {
+  const { id, token } = req.params;
+  const { Jelszo } = req.body;
+
+  try {
+    const user = await prisma.felhasznalok.findUnique({ 
+        where: { ID: Number(id) } 
+    });
+    
+    if (!user) return res.status(404).send("Felhasználó nem található.");
+
+    const secret = process.env.JWT_SECRET + user.Jelszo;
+    jsonwebtoken.verify(token, secret);
+
+    const hashedPassword = await bcrypt.hash(Jelszo, 14);
+    
+    await prisma.felhasznalok.update({
+      where: { ID: Number(id) },
+      data: { Jelszo: hashedPassword }
+    });
+
+    res.send("A jelszó sikeresen megváltoztatva!");
+  } catch (error) {
+    res.status(400).send("Érvénytelen vagy lejárt link.");
+  }
+});
+
 export default router;
