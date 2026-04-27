@@ -10,12 +10,12 @@ host: "smtp.gmail.com",
 secure: true,
 });
 
-function emailSend(email, link) {
+function sendRecoveryEmail(email, link) {
   transporter.sendMail(
     {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Test message",
+      subject: "Elfelejtett jelszó",
       text: `A jelszó helyreállítási link: ${link}`
       ,
     },
@@ -28,4 +28,4 @@ function emailSend(email, link) {
   );
 }
 
-export default emailSend;
+export default sendRecoveryEmail;

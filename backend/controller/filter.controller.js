@@ -12,12 +12,7 @@ router.get("/filterek", async (_, res) => {
     include: {
       etteremtipus: true,
       varosok: true,
-      menuk: {
-        include: {
-          etelek: true,
-          italok: true,
-        },
-      },
+      menuk: true,
     },
   });
   res.status(200).json(filterek);

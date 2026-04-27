@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
 import jsonwebtoken from "jsonwebtoken";
 const prisma = new PrismaClient();
-import emailSend from "../server/nodemailer.js";
+import sendRecoveryEmail from "../server/nodemailer.js";
 
 const router = Router();
 
@@ -31,8 +31,6 @@ router.post("/register", async (req, res) => {
           Jelszo: hashedPassword,
         },
       });
-
-      emailSend(Email);
 
       res.status(201).send("Sikeres regisztráció");
     } catch (error) {
@@ -71,7 +69,7 @@ router.post("/login", async (req, res) => {
         },
       );
 
-      emailSend(Email);
+      (Email);
       return res.status(200).json({
         accessToken,
         userId: user.ID,
@@ -113,7 +111,7 @@ router.post('/forgot-password', async (req, res) => {
   
   console.log("Link:", link); 
   res.send("A visszaállító linket elküldtük!");
-  emailSend(Email, link)
+  sendRecoveryEmail(Email, link)
 });
 
 router.post('/reset-password/:id/:token', async (req, res) => {

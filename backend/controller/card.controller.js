@@ -33,8 +33,8 @@ router.get("/menuk", async (_, res) => {
   const data = await prisma.menuk.findMany({
     include: {
       ettermek: true,
-      etelek: true,
-      italok: true,
+      menu_etelek: true,
+      menu_italok: true,
     },
   });
   res.status(200).json(data);

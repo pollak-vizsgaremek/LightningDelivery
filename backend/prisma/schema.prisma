@@ -8,52 +8,46 @@ datasource db {
 }
 
 model etelek {
-  ID       Int        @id @default(autoincrement())
-  Nev      String     @db.VarChar(100)
-  Ar       Int
-  Kaloria  Int
-  menuk    menuk[]
-  rendeles rendeles[]
+  ID          Int           @id @default(autoincrement())
+  Nev         String        @db.VarChar(100)
+  Ar          Int
+  Kaloria     Int
+  EtteremID   Int?
+  ettermek    ettermek?     @relation(fields: [EtteremID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "fk_etelek_etterem")
+  menu_etelek menu_etelek[]
+
+  @@index([EtteremID], map: "etelek_ibfk_1")
 }
 
 model italok {
-  ID       Int        @id @default(autoincrement())
-  Nev      String     @db.VarChar(100)
-  Ar       Int
-  Kaloria  Int
-  menuk    menuk[]
-  rendeles rendeles[]
-}
+  ID          Int           @id @default(autoincrement())
+  Nev         String        @db.VarChar(100)
+  Ar          Int
+  Kaloria     Int
+  EtteremID   Int?
+  ettermek    ettermek?     @relation(fields: [EtteremID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "fk_italok_etterem")
+  menu_italok menu_italok[]
 
-model rendeles {
-  ID             Int          @id @default(autoincrement())
-  EtelekID       Int
-  ItalokID       Int
-  FelhasznalokID Int
-  felhasznalok   felhasznalok @relation(fields: [FelhasznalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_1")
-  italok         italok       @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_2")
-  etelek         etelek       @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "rendeles_ibfk_3")
-
-  @@index([EtelekID], map: "EtelekID")
-  @@index([ItalokID], map: "ItalokID")
-  @@index([FelhasznalokID], map: "FelhasznalokID")
+  @@index([EtteremID], map: "italok_ibfk_1")
 }
 
 model ettermek {
   ID                   Int          @id @default(autoincrement())
   EtteremNev           String       @db.VarChar(100)
   EtteremTipusID       Int
-  EtteremKep           Bytes        @db.MediumBlob
+  EtteremKep           Bytes?       @db.MediumBlob
   AtlagosSzallitasiIdo Int
   VarosID              Int
   Longitude            Float        @db.Float
   Latitude             Float        @db.Float
+  etelek               etelek[]
   varosok              varosok      @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
   etteremtipus         etteremtipus @relation(fields: [EtteremTipusID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_2")
+  italok               italok[]
   menuk                menuk[]
 
-  @@index([VarosID], map: "VarosID")
-  @@index([EtteremTipusID], map: "EtteremTipusID")
+  @@index([VarosID], map: "ettermek_ibfk_1")
+  @@index([EtteremTipusID], map: "ettermek_ibfk_2")
 }
 
 model varosok {
@@ -65,35 +59,49 @@ model varosok {
 }
 
 model felhasznalok {
-  ID                 Int        @id @default(autoincrement())
-  Email              String     @unique(map: "Email") @db.VarChar(100)
-  Jelszo             String     @db.VarChar(100)
-  Felhasznalonev     String     @unique(map: "Felhasznalonev") @db.VarChar(100)
-  PasswordResetToken String?    @db.VarChar(50)
-  rendeles           rendeles[]
+  ID                 Int     @id @default(autoincrement())
+  Email              String  @unique(map: "Email") @db.VarChar(100)
+  Jelszo             String  @db.VarChar(100)
+  Felhasznalonev     String  @unique(map: "Felhasznalonev") @db.VarChar(100)
+  PasswordResetToken String? @db.VarChar(255)
 }
 
 model menuk {
-  ID         Int      @id @default(autoincrement())
-  EttermekID Int
-  MenuNev    String   @db.VarChar(100)
-  MenuAr     Int
-  EtelekID   Int
-  ItalokID   Int
-  AkciosE    Boolean
-  AkciosAr   Int
-  etelek     etelek   @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_1")
-  italok     italok   @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_2")
-  ettermek   ettermek @relation(fields: [EttermekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_3")
+  ID          Int           @id @default(autoincrement())
+  EttermekID  Int
+  MenuNev     String        @db.VarChar(100)
+  MenuAr      Int
+  AkciosE     Boolean
+  AkciosAr    Int
+  menu_etelek menu_etelek[]
+  menu_italok menu_italok[]
+  ettermek    ettermek      @relation(fields: [EttermekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_3")
 
-  @@index([EtelekID, ItalokID], map: "EtelekID")
-  @@index([ItalokID], map: "ItalokID")
-  @@index([EttermekID], map: "EtteremID")
-  @@index([EttermekID], map: "EttermekID")
+  @@index([EttermekID], map: "menuk_ibfk_3")
 }
 
 model etteremtipus {
   ID           Int        @id @default(autoincrement())
   EtteremTipus String     @db.VarChar(100)
   ettermek     ettermek[]
+}
+
+model menu_etelek {
+  MenuID Int
+  EtelID Int
+  etelek etelek @relation(fields: [EtelID], references: [ID], onDelete: Cascade, onUpdate: Restrict, map: "fk_junction_etel")
+  menuk  menuk  @relation(fields: [MenuID], references: [ID], onDelete: Cascade, onUpdate: Restrict, map: "fk_junction_menu_e")
+
+  @@id([MenuID, EtelID])
+  @@index([EtelID], map: "fk_junction_etel")
+}
+
+model menu_italok {
+  MenuID Int
+  ItalID Int
+  italok italok @relation(fields: [ItalID], references: [ID], onDelete: Cascade, onUpdate: Restrict, map: "fk_junction_ital")
+  menuk  menuk  @relation(fields: [MenuID], references: [ID], onDelete: Cascade, onUpdate: Restrict, map: "fk_junction_menu_i")
+
+  @@id([MenuID, ItalID])
+  @@index([ItalID], map: "fk_junction_ital")
 }
