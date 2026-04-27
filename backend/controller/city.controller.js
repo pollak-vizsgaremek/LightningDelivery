@@ -8,12 +8,6 @@ const prisma = new PrismaClient();
 router.get("/cities", async (req, res) => {
   try {
     const cities = await prisma.varosok.findMany({
-      select: {
-        ID: true,
-        VarosNev: true,
-        Longitude: true,
-        Latitude: true,
-      },
       orderBy: {
         VarosNev: "asc",
       },

@@ -8,25 +8,27 @@ datasource db {
 }
 
 model etelek {
-  ID          Int           @id @default(autoincrement())
-  Nev         String        @db.VarChar(100)
-  Ar          Int
-  Kaloria     Int
-  EtteremID   Int?
-  ettermek    ettermek?     @relation(fields: [EtteremID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "fk_etelek_etterem")
-  menu_etelek menu_etelek[]
+  ID            Int             @id @default(autoincrement())
+  Nev           String          @db.VarChar(100)
+  Ar            Int
+  Kaloria       Int
+  EtteremID     Int?
+  ettermek      ettermek?       @relation(fields: [EtteremID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "fk_etelek_etterem")
+  kosar_tetelek kosar_tetelek[]
+  menu_etelek   menu_etelek[]
 
   @@index([EtteremID], map: "etelek_ibfk_1")
 }
 
 model italok {
-  ID          Int           @id @default(autoincrement())
-  Nev         String        @db.VarChar(100)
-  Ar          Int
-  Kaloria     Int
-  EtteremID   Int?
-  ettermek    ettermek?     @relation(fields: [EtteremID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "fk_italok_etterem")
-  menu_italok menu_italok[]
+  ID            Int             @id @default(autoincrement())
+  Nev           String          @db.VarChar(100)
+  Ar            Int
+  Kaloria       Int
+  EtteremID     Int?
+  ettermek      ettermek?       @relation(fields: [EtteremID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "fk_italok_etterem")
+  kosar_tetelek kosar_tetelek[]
+  menu_italok   menu_italok[]
 
   @@index([EtteremID], map: "italok_ibfk_1")
 }
@@ -67,15 +69,16 @@ model felhasznalok {
 }
 
 model menuk {
-  ID          Int           @id @default(autoincrement())
-  EttermekID  Int
-  MenuNev     String        @db.VarChar(100)
-  MenuAr      Int
-  AkciosE     Boolean
-  AkciosAr    Int
-  menu_etelek menu_etelek[]
-  menu_italok menu_italok[]
-  ettermek    ettermek      @relation(fields: [EttermekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_3")
+  ID            Int             @id @default(autoincrement())
+  EttermekID    Int
+  MenuNev       String          @db.VarChar(100)
+  MenuAr        Int
+  AkciosE       Boolean
+  AkciosAr      Int
+  kosar_tetelek kosar_tetelek[]
+  menu_etelek   menu_etelek[]
+  menu_italok   menu_italok[]
+  ettermek      ettermek        @relation(fields: [EttermekID], references: [ID], onUpdate: Restrict, map: "menuk_ibfk_3")
 
   @@index([EttermekID], map: "menuk_ibfk_3")
 }
@@ -104,4 +107,32 @@ model menu_italok {
 
   @@id([MenuID, ItalID])
   @@index([ItalID], map: "fk_junction_ital")
+}
+
+model kosar_tetelek {
+  ID        Int     @id
+  KosarID   Int
+  EtelekID  Int
+  ItalokID  Int
+  MenuID    Int
+  Mennyiseg Int
+  kosarak   kosarak @relation(fields: [KosarID], references: [ID], onUpdate: Restrict, map: "kosar_tetelek_ibfk_1")
+  italok    italok  @relation(fields: [ItalokID], references: [ID], onUpdate: Restrict, map: "kosar_tetelek_ibfk_2")
+  etelek    etelek  @relation(fields: [EtelekID], references: [ID], onUpdate: Restrict, map: "kosar_tetelek_ibfk_3")
+  menuk     menuk   @relation(fields: [MenuID], references: [ID], onUpdate: Restrict, map: "kosar_tetelek_ibfk_4")
+
+  @@index([EtelekID, ItalokID, MenuID], map: "EtelekID")
+  @@index([ItalokID], map: "ItalokID")
+  @@index([KosarID], map: "KosarID")
+  @@index([MenuID], map: "MenuID")
+}
+
+model kosarak {
+  ID            Int             @id
+  FelhasznaloID Int
+  Elkeszult     DateTime        @db.Date
+  Modositott    DateTime        @db.Date
+  kosar_tetelek kosar_tetelek[]
+
+  @@index([FelhasznaloID], map: "FelhasznaloID")
 }
