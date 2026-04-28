@@ -5,49 +5,43 @@ const router = Router();
 const prisma = new PrismaClient();
 
 router.get("/ettermek", async (_, res) => {
-  const restaurants = await prisma.ettermek.findMany({
-    include: {
-      varosok: true,
-      etteremtipus: true,
-    },
-  });
+  try {
+    const restaurants = await prisma.ettermek.findMany({
+      include: {
+        varosok: true,
+        etteremtipus: true,
+        etteremlancok: {
+          include: { preset_kepek: true },
+        },
+      },
+    });
 
-  // Konvertáld a bináris képeket base64-re
-  const restaurantsWithBase64 = restaurants.map((restaurant) => ({
-    ...restaurant,
-    EtteremKep: restaurant.EtteremKep
-      ? Buffer.from(restaurant.EtteremKep).toString("base64")
-      : null,
-  }));
+    const restaurantsWithBase64 = restaurants.map((restaurant) => {
+      let finalValue = null;
 
-  res.status(200).json(restaurantsWithBase64);
+      // Case 1: Restaurant belongs to a chain
+      if (restaurant.EtteremLancID && restaurant.etteremlancok?.preset_kepek?.length > 0) {
+        const kepek = restaurant.etteremlancok.preset_kepek;
+        const randomIndex = Math.floor(Math.random() * kepek.length);
+        finalValue = Buffer.from(kepek[randomIndex].EtteremKep).toString("base64");
+      } 
+      // Case 2: No chain (EtteremLancID is null)
+      else {
+        finalValue = Math.floor(Math.random() * 3) + 1;
+      }
+      console.log(finalValue);
+      
+      return {
+        ...restaurant,
+        EtteremKep: finalValue,
+      };
+    });
+
+    res.status(200).json(restaurantsWithBase64);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
-
-// Szűrés étteremtípus alapján
-router.get("/ettermek/tipus/:tipusId", async (req, res) => {
-  const { tipusId } = req.params;
-  
-  const restaurants = await prisma.ettermek.findMany({
-    where: {
-      EtteremTipusID: parseInt(tipusId),
-    },
-    include: {
-      varosok: true,
-      etteremtipus: true,
-    },
-  });
-
-  // Konvertáld a bináris képeket base64-re
-  const restaurantsWithBase64 = restaurants.map((restaurant) => ({
-    ...restaurant,
-    EtteremKep: restaurant.EtteremKep
-      ? Buffer.from(restaurant.EtteremKep).toString("base64")
-      : null,
-  }));
-
-  res.status(200).json(restaurantsWithBase64);
-});
-
 // Összes étteremtípus lekérése
 router.get("/etteremtipusok", async (_, res) => {
   const tipusok = await prisma.etteremtipus.findMany();

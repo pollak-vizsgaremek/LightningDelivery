@@ -34,22 +34,24 @@ model italok {
 }
 
 model ettermek {
-  ID                   Int          @id @default(autoincrement())
-  EtteremNev           String       @db.VarChar(100)
+  ID                   Int            @id @default(autoincrement())
+  EtteremNev           String         @db.VarChar(100)
   EtteremTipusID       Int
-  EtteremKep           Bytes?       @db.MediumBlob
+  EtteremLancID        Int?
   AtlagosSzallitasiIdo Int
   VarosID              Int
-  Longitude            Float        @db.Float
-  Latitude             Float        @db.Float
+  Longitude            Float          @db.Float
+  Latitude             Float          @db.Float
   etelek               etelek[]
-  varosok              varosok      @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
-  etteremtipus         etteremtipus @relation(fields: [EtteremTipusID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_2")
+  varosok              varosok        @relation(fields: [VarosID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_1")
+  etteremtipus         etteremtipus   @relation(fields: [EtteremTipusID], references: [ID], onUpdate: Restrict, map: "ettermek_ibfk_2")
+  etteremlancok        etteremlancok? @relation(fields: [EtteremLancID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "ettermek_ibfk_3")
   italok               italok[]
   menuk                menuk[]
 
   @@index([VarosID], map: "ettermek_ibfk_1")
   @@index([EtteremTipusID], map: "ettermek_ibfk_2")
+  @@index([EtteremLancID], map: "EtteremLancID")
 }
 
 model varosok {
@@ -136,4 +138,20 @@ model kosarak {
   kosar_tetelek kosar_tetelek[]
 
   @@index([FelhasznaloID], map: "FelhasznaloID")
+}
+
+model etteremlancok {
+  ID           Int            @id @default(autoincrement())
+  EtteremLanc  String         @db.VarChar(100)
+  ettermek     ettermek[]
+  preset_kepek preset_kepek[]
+}
+
+model preset_kepek {
+  ID            Int            @id @default(autoincrement())
+  EtteremLancID Int?
+  EtteremKep    Bytes          @db.Blob
+  etteremlancok etteremlancok? @relation(fields: [EtteremLancID], references: [ID], onDelete: Restrict, onUpdate: Restrict, map: "preset_kepek_ibfk_1")
+
+  @@index([EtteremLancID], map: "EtteremLancID")
 }

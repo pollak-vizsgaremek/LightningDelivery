@@ -1,5 +1,3 @@
-import { reactive, computed } from "vue";
-import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { Router } from "express";
 import bcrypt from "bcrypt";
@@ -68,7 +66,7 @@ router.post("/login", async (req, res) => {
         "secret",
         {
           algorithm: "HS512",
-          expiresIn: "1h", // A 15m nagyon rövid teteléshez
+          expiresIn: "1h", // A 15m nagyon rövid teszteléshez
           issuer: "http://localhost:5173",
           subject: user.ID.toString(),
         }
@@ -146,60 +144,5 @@ router.post("/reset-password/:id/:token", async (req, res) => {
     res.status(400).send("Érvénytelen vagy lejárt link.");
   }
 });
-
-const state = reactive({
-  token: localStorage.getItem("token") || null,
-  user: null,
-});
-
-const setAxiosHeader = (token) => {
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete axios.defaults.headers.common["Authorization"];
-  }
-};
-
-export const useAuth = () => {
-  const init = () => {
-    if (state.token) {
-      try {
-        const decoded = jwtDecode(state.token);
-        // Lejárat ellenőrzése
-        if (decoded.exp * 1000 < Date.now()) {
-          logout();
-        } else {
-          state.user = decoded;
-          setAxiosHeader(state.token);
-        }
-      } catch (e) {
-        logout();
-      }
-    }
-  };
-
-  const login = (token) => {
-    state.token = token;
-    state.user = jwtDecode(token);
-    localStorage.setItem("token", token);
-    setAxiosHeader(token);
-  };
-
-  const logout = () => {
-    state.token = null;
-    state.user = null;
-    localStorage.removeItem("token");
-    setAxiosHeader(null);
-  };
-
-  return {
-    user: computed(() => state.user),
-    isLoggedIn: computed(() => !!state.user),
-    isAdmin: computed(() => state.user?.role === "ADMIN"),
-    login,
-    logout,
-    init,
-  };
-};
 
 export default router;
