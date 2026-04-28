@@ -23,6 +23,37 @@ router.get("/ettermek", async (_, res) => {
   res.status(200).json(restaurantsWithBase64);
 });
 
+// Szűrés étteremtípus alapján
+router.get("/ettermek/tipus/:tipusId", async (req, res) => {
+  const { tipusId } = req.params;
+  
+  const restaurants = await prisma.ettermek.findMany({
+    where: {
+      EtteremTipusID: parseInt(tipusId),
+    },
+    include: {
+      varosok: true,
+      etteremtipus: true,
+    },
+  });
+
+  // Konvertáld a bináris képeket base64-re
+  const restaurantsWithBase64 = restaurants.map((restaurant) => ({
+    ...restaurant,
+    EtteremKep: restaurant.EtteremKep
+      ? Buffer.from(restaurant.EtteremKep).toString("base64")
+      : null,
+  }));
+
+  res.status(200).json(restaurantsWithBase64);
+});
+
+// Összes étteremtípus lekérése
+router.get("/etteremtipusok", async (_, res) => {
+  const tipusok = await prisma.etteremtipus.findMany();
+  res.status(200).json(tipusok);
+});
+
 router.get("/etelek", async (_, res) => {
   const etelek = await prisma.etelek.findMany();
 
