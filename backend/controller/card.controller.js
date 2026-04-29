@@ -16,11 +16,11 @@ router.get("/ettermek", async (_, res) => {
       },
     });
 
-    const restaurantsWithBase64 = restaurants.map((restaurant) => {
+    const restaurantsWithBase64 = restaurants.map((restaurant), async () => {
       let finalValue = null;
 
       // Case 1: Restaurant belongs to a chain
-      if (restaurant.EtteremLancID && restaurant.etteremlancok?.preset_kepek?.length > 0) {
+      if (restaurants.EtteremLancID && restaurant.etteremlancok?.preset_kepek?.length > 0) {
         const kepek = restaurant.etteremlancok.preset_kepek;
         const randomIndex = Math.floor(Math.random() * kepek.length);
         finalValue = Buffer.from(kepek[randomIndex].EtteremKep).toString("base64");
@@ -28,8 +28,17 @@ router.get("/ettermek", async (_, res) => {
       // Case 2: No chain (EtteremLancID is null)
       else {
         finalValue = Math.floor(Math.random() * 3) + 1;
+
+        const pic = await prisma.preset_kepek.findFirst({
+          where: {
+            ID: finalValue
+          }
+        })
+
       }
       console.log(finalValue);
+
+
       
       return {
         ...restaurant,
