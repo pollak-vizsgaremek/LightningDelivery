@@ -6,7 +6,7 @@
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5 text-amber-400 flex-shrink-0"
+        class="w-5 h-5 text-amber-400 shrink-0"
         viewBox="0 0 20 20"
         fill="currentColor"
         aria-hidden="true"
@@ -84,11 +84,11 @@
               <div class="flex flex-wrap gap-2">
                 <button
                   v-for="opt in timeOptions"
-                  :key="opt"
-                  @click="toggle('time', opt)"
-                  :class="chipClass(selected.time, opt)"
+                  :key="opt.value"
+                  @click="toggle('time', opt.value)"
+                  :class="chipClass(selected.time, opt.value)"
                 >
-                  {{ opt }}
+                  {{ opt.label }}
                 </button>
               </div>
             </div>
@@ -183,21 +183,65 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const visible = ref(false);
+const route = useRoute();
+const router = useRouter();
 
 const open = () => {
+  syncFromQuery();
   visible.value = true;
 };
 const close = () => {
   visible.value = false;
 };
 
-const timeOptions = ["< 30 perc", "< 45 perc", "< 60 perc"];
+const timeOptions = [
+  { label: "< 15 perc", value: "15" },
+  { label: "< 30 perc", value: "30" },
+  { label: "< 45 perc", value: "45" },
+  { label: "< 60 perc", value: "60" },
+];
 const featureOptions = ["Gyors", "Kedvezmény", "Népszerű"];
 
 const selected = reactive({ time: [] as string[], feature: [] as string[] });
 const price = ref("all");
+
+const parseQueryList = (value: unknown) => {
+  if (typeof value !== "string" || value.trim() === "") {
+    return [] as string[];
+  }
+
+  return value
+    .split(",")
+    .map((v) => v.trim())
+    .filter(Boolean);
+};
+
+const syncFromQuery = () => {
+  selected.time.splice(
+    0,
+    selected.time.length,
+    ...parseQueryList(route.query.deliveryMax),
+  );
+  selected.feature.splice(
+    0,
+    selected.feature.length,
+    ...parseQueryList(route.query.features),
+  );
+
+  const queryPrice = route.query.price;
+  if (
+    queryPrice === "all" ||
+    queryPrice === "cheap" ||
+    queryPrice === "expensive"
+  ) {
+    price.value = queryPrice;
+  } else {
+    price.value = "all";
+  }
+};
 
 const toggle = (group: "time" | "feature", value: string) => {
   const arr = selected[group];
@@ -219,16 +263,40 @@ const clear = () => {
   selected.time.splice(0);
   selected.feature.splice(0);
   price.value = "all";
+
+  const nextQuery = { ...route.query };
+  delete nextQuery.deliveryMax;
+  delete nextQuery.features;
+  delete nextQuery.price;
+  router.replace({ query: nextQuery });
 };
 
 const apply = () => {
-  // TODO: emit selected filters to parent if needed
-  console.log("Apply filters", {
-    selected: { ...selected },
-    price: price.value,
-  });
+  const nextQuery = { ...route.query } as Record<string, string>;
+
+  if (selected.time.length > 0) {
+    nextQuery.deliveryMax = selected.time.join(",");
+  } else {
+    delete nextQuery.deliveryMax;
+  }
+
+  if (selected.feature.length > 0) {
+    nextQuery.features = selected.feature.join(",");
+  } else {
+    delete nextQuery.features;
+  }
+
+  if (price.value !== "all") {
+    nextQuery.price = price.value;
+  } else {
+    delete nextQuery.price;
+  }
+
+  router.replace({ query: nextQuery });
   visible.value = false;
 };
+
+syncFromQuery();
 </script>
 
 <style scoped>

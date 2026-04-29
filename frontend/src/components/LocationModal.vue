@@ -125,6 +125,34 @@ const selectLocation = (location: string) => {
     );
     // Frissítjük az összes város távolságát ebből a pontból
     updateDistances();
+    // persist selected coords for other pages
+    try {
+      localStorage.setItem(
+        "selected_location_lat",
+        String(selectedCity.latitude),
+      );
+      localStorage.setItem(
+        "selected_location_lon",
+        String(selectedCity.longitude),
+      );
+      localStorage.setItem("selected_location_name", selectedCity.name);
+    } catch (e) {
+      // ignore storage errors
+    }
+    // broadcast event
+    try {
+      window.dispatchEvent(
+        new CustomEvent("location:changed", {
+          detail: {
+            lat: selectedCity.latitude,
+            lon: selectedCity.longitude,
+            name: selectedCity.name,
+          },
+        }),
+      );
+    } catch (e) {
+      // ignore
+    }
   }
 
   isOpen.value = false;
@@ -279,6 +307,19 @@ const getCurrentLocation = () => {
 
           selectLocation(newLocation.name);
           isLoadingLocation.value = false;
+          // persist and broadcast when using geolocation
+          try {
+            localStorage.setItem("selected_location_lat", String(latitude));
+            localStorage.setItem("selected_location_lon", String(longitude));
+            localStorage.setItem("selected_location_name", city);
+          } catch (e) {}
+          try {
+            window.dispatchEvent(
+              new CustomEvent("location:changed", {
+                detail: { lat: latitude, lon: longitude, name: city },
+              }),
+            );
+          } catch (e) {}
         })
         .catch((error) => {
           console.error("Geocoding hiba:", error);

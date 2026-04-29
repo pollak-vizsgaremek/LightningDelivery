@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
 
-
 const authMiddleware = (req, res, next) => {
-  console.log(req.headers);
-
   const accessToken = req.headers.authorization;
 
   if (!accessToken) {
@@ -13,6 +10,7 @@ const authMiddleware = (req, res, next) => {
   try {
     const token = accessToken.split(" ")[1];
     const tokenData = jwt.verify(token, "secret");
+    req.user = tokenData;
 
     return next();
   } catch (error) {

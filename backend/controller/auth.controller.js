@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Router } from "express";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
@@ -12,46 +11,66 @@ const router = Router();
 
 router.post("/register", async (req, res) => {
   const { Felhasznalonev, Jelszo, Jelszo2, Email } = req.body;
-  const hashedPassword = bcrypt.hashSync(Jelszo, 14);
-  const letezo = await prisma.felhasznalok.findFirst({
-    where: { Email: Email },
-  });
-  if (!Felhasznalonev || !Jelszo || !Jelszo2 || !Email)
+
+  const normalizedName = String(Felhasznalonev ?? "").trim();
+  const normalizedEmail = String(Email ?? "")
+    .trim()
+    .toLowerCase();
+
+  if (!normalizedName || !Jelszo || !Jelszo2 || !normalizedEmail) {
     return res.status(400).json({ message: "Minden mező kitöltése kötelező!" });
+  }
+
   if (Jelszo !== Jelszo2) {
     return res.status(400).json({ message: "A jelszavak nem egyeznek!" });
   }
-  if (letezo) res.status(400).json({ message: "Az email már foglalt!" });
 
-  if (!letezo) {
-    try {
-      await prisma.felhasznalok.create({
-        data: {
-          Email: Email,
-          Felhasznalonev: Felhasznalonev,
-          Jelszo: hashedPassword,
-        },
-      });
+  try {
+    const existingUser = await prisma.felhasznalok.findFirst({
+      where: {
+        OR: [{ Email: normalizedEmail }, { Felhasznalonev: normalizedName }],
+      },
+    });
 
-      res.status(201).send("Sikeres regisztráció");
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Szerver hiba");
+    if (existingUser) {
+      if (existingUser.Email === normalizedEmail) {
+        return res.status(400).json({ message: "Az email már foglalt!" });
+      }
+
+      return res.status(400).json({ message: "A felhasználónév már foglalt!" });
     }
+
+    const hashedPassword = await bcrypt.hash(Jelszo, 14);
+
+    await prisma.felhasznalok.create({
+      data: {
+        Email: normalizedEmail,
+        Felhasznalonev: normalizedName,
+        Jelszo: hashedPassword,
+      },
+    });
+
+    return res.status(201).json({ message: "Sikeres regisztráció" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Szerver hiba" });
   }
 });
 
 router.post("/login", async (req, res) => {
   try {
     const { Email, Jelszo } = req.body;
+    const normalizedEmail = String(Email ?? "")
+      .trim()
+      .toLowerCase();
 
-    if (!Email || !Jelszo)
+    if (!normalizedEmail || !Jelszo)
       return res
         .status(400)
         .json({ message: "Email és jelszó megadása kötelező!" });
 
     const user = await prisma.felhasznalok.findUnique({
-      where: { Email: Email },
+      where: { Email: normalizedEmail },
     });
 
     // BIZTONSÁGOS ELLENŐRZÉS: Ha nincs user, ne dobjon hibát a bcrypt
@@ -69,10 +88,9 @@ router.post("/login", async (req, res) => {
           expiresIn: "1h", // A 15m nagyon rövid teszteléshez
           issuer: "http://localhost:5173",
           subject: user.ID.toString(),
-        }
+        },
       );
 
-      Email;
       return res.status(200).json({
         accessToken,
         userId: user.ID,

@@ -7,16 +7,41 @@ const emit = defineEmits<{
 
 const etteremTipusok = ref<{ ID: number; EtteremTipus: string }[]>([]);
 
-const imageMap: Record<string, string> = {
-  "Gyorsétterem": "/images/gyorskaja.png",
-  "Pizza": "/images/pizza.jpg",
-  "Burgerek": "/images/burger.jpg",
-  "Gyros": "/images/gyros.webp",
-  "default": "/images/burger.jpg"
-};
+const imageMap = {
+  fast: "/images/gyorskaja.png",
+  pizza: "/images/pizza.jpg",
+  burger: "/images/burger.jpg",
+  gyros: "/images/gyros.webp",
+  default: "/images/burger.jpg",
+} as const;
+
+const normalizeTypeName = (value: string) =>
+  String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
 const getImageForTipus = (tipus: string): string => {
-  return imageMap[tipus] || imageMap["default"];
+  const normalized = normalizeTypeName(tipus);
+
+  if (normalized.includes("gyros")) {
+    return imageMap.gyros;
+  }
+
+  if (normalized.includes("pizza")) {
+    return imageMap.pizza;
+  }
+
+  if (normalized.includes("burger") || normalized.includes("hamburger")) {
+    return imageMap.burger;
+  }
+
+  if (normalized.includes("gyors") || normalized.includes("fast")) {
+    return imageMap.fast;
+  }
+
+  return imageMap.default;
 };
 
 const getEtteremTipusok = async () => {
@@ -35,32 +60,27 @@ const handleClick = (tipusId: number) => {
 
 <template>
   <div
-    class="flex items-center text-shadow-lg text-shadow-gray-600 text-center mt-5 justify-center w-full"
+    class="mt-5 flex w-full flex-wrap items-stretch justify-center gap-5 text-center"
   >
     <div
       v-for="tipus in etteremTipusok"
       :key="tipus.ID"
       @click="handleClick(tipus.ID)"
-      class="lg:w-1/8 h-45 w-full ml-5 rounded-3xl border border-gray-500/20 bg-black/20 font-semibold text-2xl text-center cursor-pointer relative overflow-hidden group shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-amber-500/30"
+      class="relative h-52 w-full cursor-pointer overflow-hidden rounded-3xl border border-gray-500/30 bg-black/20 text-center font-semibold shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-amber-500/30 sm:w-76"
     >
-      <ul class="items-center justify-center">
-        <li
-          class="relative overflow-hidden border border-amber-400/20 bg-black/70"
-        >
-          <img
-            :src="getImageForTipus(tipus.EtteremTipus)"
-            :alt="tipus.EtteremTipus"
-            class="h-full w-full object-cover opacity-90"
-          />
-          <div
-            class="absolute inset-0 from-black/80 via-black/10 to-black/0"
-          ></div>
-          <div class="absolute bottom-8 left-8 text-center text-white">
-            <h3 class="text-3xl font-bold">{{ tipus.EtteremTipus }}</h3>
-            <p class="mt-3 text-gray-200"></p>
-          </div>
-        </li>
-      </ul>
+      <img
+        :src="getImageForTipus(tipus.EtteremTipus)"
+        :alt="tipus.EtteremTipus"
+        class="absolute inset-0 h-full w-full object-cover opacity-90"
+      />
+      <div
+        class="absolute inset-0 bg-linear-to-t from-black/90 via-black/30 to-black/10"
+      ></div>
+      <div class="absolute inset-x-0 bottom-0 z-10 p-4">
+        <h3 class="text-3xl leading-tight font-bold text-white wrap-break-word">
+          {{ tipus.EtteremTipus }}
+        </h3>
+      </div>
     </div>
   </div>
   <div class="mt-10 font-semibold text-lg font-serif">

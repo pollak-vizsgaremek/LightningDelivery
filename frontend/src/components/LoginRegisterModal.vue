@@ -104,42 +104,41 @@ const cancel = () => {
 const loginEmail = ref("");
 const loginPassword = ref("");
 
-const login = () => {
-  console.log("Login attempt:", {
-    email: loginEmail.value,
-    password: loginPassword.value,
-  });
+const login = async () => {
+  loginError.value = "";
 
-  //Login Fetch
-
-  fetch("http://localhost:3300/api/v1/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      Email: loginEmail.value,
-      Jelszo: loginPassword.value,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.accessToken) {
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("userId", data.userId);
-        localStorage.setItem("userName", data.userName);
-        router.push("/recommend");
-      } else {
-        alert("Hibás email vagy jelszó!");
-      }
-    })
-    .catch((error) => {
-      console.error("Hiba a bejelentkezés során:", error);
-      alert("Hiba történt a bejelentkezés során. Kérlek, próbáld újra!");
+  try {
+    const response = await fetch("http://localhost:3300/api/v1/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Email: loginEmail.value,
+        Jelszo: loginPassword.value,
+      }),
     });
 
-  isOpen.value = false;
-  emit("update:visible", false);
+    const data = await response.json();
+
+    if (!response.ok || !data.accessToken) {
+      loginError.value = data?.message ?? "Hibás email vagy jelszó!";
+      return;
+    }
+
+    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem("userId", String(data.userId));
+    localStorage.setItem("userName", String(data.userName));
+    localStorage.setItem("userRole", String(data.role ?? "USER"));
+
+    isOpen.value = false;
+    emit("update:visible", false);
+    router.push("/");
+  } catch (error) {
+    console.error("Hiba a bejelentkezés során:", error);
+    loginError.value =
+      "Hiba történt a bejelentkezés során. Kérlek, próbáld újra!";
+  }
 };
 
 // Registration form state
@@ -148,8 +147,9 @@ const regEmail = ref("");
 const regPassword = ref("");
 const regPasswordConfirm = ref("");
 const regError = ref("");
+const loginError = ref("");
 
-const register = () => {
+const register = async () => {
   regError.value = "";
   if (regPassword.value !== regPasswordConfirm.value) {
     regError.value = "A jelszavak nem egyeznek";
@@ -160,23 +160,35 @@ const register = () => {
     email: regEmail.value,
   });
 
-  //Register Fetch
+  try {
+    const response = await fetch("http://localhost:3300/api/v1/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Email: regEmail.value,
+        Felhasznalonev: regName.value,
+        Jelszo: regPassword.value,
+        Jelszo2: regPasswordConfirm.value,
+      }),
+    });
 
-  fetch("http://localhost:3300/api/v1/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      Email: regEmail.value,
-      Felhasznalonev: regName.value,
-      Jelszo: regPassword.value,
-      Jelszo2: regPasswordConfirm.value,
-    }),
-  });
+    const data = await response.json();
 
-  isOpen.value = false;
-  emit("update:visible", false);
+    if (!response.ok) {
+      regError.value = data?.message ?? "Sikertelen regisztráció.";
+      return;
+    }
+
+    loginEmail.value = regEmail.value;
+    loginPassword.value = regPassword.value;
+    selectedTab.value = 0;
+    regError.value = "Sikeres regisztráció! Most bejelentkezhetsz.";
+  } catch (error) {
+    console.error("Hiba a regisztráció során:", error);
+    regError.value = "Hiba történt a regisztráció során. Kérlek, próbáld újra!";
+  }
 };
 </script>
 
@@ -272,6 +284,10 @@ const register = () => {
                     />
                   </div>
 
+                  <div v-if="loginError" class="text-sm text-red-400">
+                    {{ loginError }}
+                  </div>
+
                   <div class="flex justify-end gap-2">
                     <button
                       type="button"
@@ -281,7 +297,6 @@ const register = () => {
                       Mégse
                     </button>
                     <button
-                      @click="login"
                       type="submit"
                       class="bg-orange-900 cursor-pointer hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-amber-400/50"
                     >

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import e from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
@@ -10,10 +11,11 @@ import cardController from "./controller/card.controller.js";
 import filterController from "./controller/filter.controller.js";
 import cityController from "./controller/city.controller.js";
 import addRestaurant from "./controller/addrestaurant.controller.js";
+import adminController from "./controller/admin.controller.js";
 
 // Middleware-ek
 import authMiddleware from "./middleware/auth.middleware.js";
-import { isAdmin } from "./middleware/admin.middleware.js";
+import { isAdmin, isAdminOrCashier } from "./middleware/admin.middleware.js";
 
 const app = e();
 const prisma = new PrismaClient();
@@ -21,12 +23,11 @@ const prisma = new PrismaClient();
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  }),
 );
 app.use(e.json());
 app.use(cors());
-
 
 // NYILVÁNOS ÚTVONALAK
 app.use("/api/v1/auth", authController);
@@ -38,6 +39,7 @@ app.use("/api/v1", cityController);
 // Sorrend: 1. Token ellenőrzés -> 2. Admin rang ellenőrzés -> 3. Controller
 app.use("/api/v1/users", authMiddleware, isAdmin, userController);
 app.use("/api/v1/add-restaurant", authMiddleware, isAdmin, addRestaurant);
+app.use("/api/v1/admin", authMiddleware, isAdminOrCashier, adminController);
 
 // BEJELENTKEZETT ÚTVONALAK
 app.use("/api/v1/rendelesek", authMiddleware, rendelesController);

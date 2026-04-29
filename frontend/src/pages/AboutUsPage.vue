@@ -196,7 +196,7 @@
       </div>
     </section>
     <footer
-      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
+      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-5 gap-4"
     >
       <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
         <div>
@@ -220,10 +220,7 @@
           >Kiszállítás</RouterLink
         >
       </div>
-      <div>
-        <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
-        <a href="" class="hover:underline">Gyakori kérdések</a>
-      </div>
+      <!-- Removed 'Hasznos linkek' column -->
       <div>
         <h1 class="text-l font-bold mb-3">Kövess minket</h1>
         <a

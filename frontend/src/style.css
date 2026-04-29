@@ -4,3 +4,13 @@
   scrollbar-width: thin;
   scrollbar-color: #4a5568 #2d3748;
 }
+
+/* Ensure all native and custom buttons show pointer cursor */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+[role="button"],
+.btn {
+  cursor: pointer;
+}

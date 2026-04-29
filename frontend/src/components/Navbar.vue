@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import RegisterModal from "../components/LoginRegisterModal.vue";
 import LocationModal from "../components/LocationModal.vue";
 import FilterModal from "../components/FilterModal.vue";
+import BasketModal from "../components/BasketModal.vue";
 
 const router = useRouter();
+const route = useRoute();
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
@@ -17,19 +19,26 @@ const navigation = [
   { name: "Calendar", href: "#", current: false },
 ];
 const isModalVisible = ref(false);
+const isLoggedIn = ref(false);
+const userName = ref("");
+const userRole = ref("USER");
+const isProfileMenuOpen = ref(false);
+const profileMenuRef = ref<HTMLElement | null>(null);
+const searchValue = ref(
+  typeof route.query.search === "string" ? route.query.search : "",
+);
+let searchDebounce: ReturnType<typeof setTimeout> | null = null;
 
 const type = ref<"login" | "register">("login");
-
-const closeModal = () => {
-  isModalVisible.value = false;
-  console.log(isModalVisible.value);
-};
 
 const openModal = (modalType: "login" | "register") => {
   type.value = modalType;
   isModalVisible.value = true;
   console.log(isModalVisible.value);
 };
+
+const isAdminUser = () =>
+  userRole.value === "ADMIN" || userRole.value === "PENZTAROS";
 
 const navigateTo = (view: string) => {
   router.push({ name: view });
@@ -45,6 +54,108 @@ const isAboutPage = () => {
 const isDeliveryPage = () => {
   return router.currentRoute.value.name === "delivery";
 };
+
+const updateSearchQuery = (value: string) => {
+  const nextQuery = { ...route.query } as Record<string, string>;
+  const normalized = value.trim();
+
+  if (normalized.length > 0) {
+    nextQuery.search = normalized;
+  } else {
+    delete nextQuery.search;
+  }
+
+  router.replace({ query: nextQuery });
+};
+
+const onSearchInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  searchValue.value = target.value;
+
+  if (searchDebounce) {
+    clearTimeout(searchDebounce);
+  }
+
+  searchDebounce = setTimeout(() => {
+    updateSearchQuery(searchValue.value);
+  }, 220);
+};
+
+const onSearchEnter = () => {
+  if (searchDebounce) {
+    clearTimeout(searchDebounce);
+  }
+
+  updateSearchQuery(searchValue.value);
+};
+
+const refreshAuthState = () => {
+  const token = localStorage.getItem("accessToken");
+  isLoggedIn.value = Boolean(token);
+  userName.value = localStorage.getItem("userName") ?? "Felhasználó";
+  userRole.value = (localStorage.getItem("userRole") ?? "USER").toUpperCase();
+
+  if (!isLoggedIn.value) {
+    isProfileMenuOpen.value = false;
+  }
+};
+
+const toggleProfileMenu = () => {
+  isProfileMenuOpen.value = !isProfileMenuOpen.value;
+};
+
+const closeProfileMenu = () => {
+  isProfileMenuOpen.value = false;
+};
+
+const handleGlobalClick = (event: MouseEvent) => {
+  if (!isProfileMenuOpen.value) {
+    return;
+  }
+
+  const target = event.target as Node;
+  if (profileMenuRef.value && !profileMenuRef.value.contains(target)) {
+    closeProfileMenu();
+  }
+};
+
+const goToAdmin = () => {
+  closeProfileMenu();
+  navigateTo("admin");
+};
+
+const logout = () => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("userId");
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userRole");
+  refreshAuthState();
+  closeProfileMenu();
+  router.push({ name: "home" });
+};
+
+onMounted(() => {
+  refreshAuthState();
+  window.addEventListener("click", handleGlobalClick);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("click", handleGlobalClick);
+});
+
+watch(
+  () => route.query.search,
+  (value) => {
+    searchValue.value = typeof value === "string" ? value : "";
+  },
+);
+
+watch(
+  () => [route.fullPath, isModalVisible.value],
+  () => {
+    refreshAuthState();
+  },
+);
 </script>
 <template>
   <div v-if="!isRecommendPage() && !isAboutPage() && !isDeliveryPage()">
@@ -60,7 +171,7 @@ const isDeliveryPage = () => {
       >
         <div class="mx-auto px-2 sm:px-6 lg:px-8">
           <div
-            class="relative flex h-16 items-center justify-center sm:justify-between"
+            class="relative flex min-h-16 items-center justify-center py-2 sm:justify-between"
           >
             <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <!-- Mobile menu button-->
@@ -80,13 +191,17 @@ const isDeliveryPage = () => {
             <div
               class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
             >
-              <div class="grid grid-rows-1 grid-cols-3 items-center w-full">
-                <div class="flex flex-row gap-2">
-                  <img
-                    class="h-8 mt-2 w-auto sm:h-16 place-self-start cursor-pointer"
-                    src="/images/logo.png"
-                    alt="Your Company"
-                  />
+              <div
+                class="grid w-full grid-cols-1 items-center gap-2 pl-8 sm:grid-cols-2 sm:pl-0 lg:grid-cols-3"
+              >
+                <div class="flex min-w-0 items-center gap-2">
+                  <RouterLink to="/" class="">
+                    <img
+                      class="h-9 w-auto cursor-pointer sm:h-14"
+                      src="/images/logo.png"
+                      alt="Your Company"
+                    />
+                  </RouterLink>
                   <!-- <RouterLink
                     to="/"
                     class="inline-flex items-center mt-10 gap-3 mb-10"
@@ -97,7 +212,7 @@ const isDeliveryPage = () => {
                     >
                   </RouterLink> -->
                   <!-- Lokáció megadása -->
-                  <div class="place-self-center mt-5">
+                  <div class="min-w-0 flex items-center gap-1">
                     <LocationModal />
                     <span class="text-white text-sm ml-2">{{}}</span>
                   </div>
@@ -106,25 +221,70 @@ const isDeliveryPage = () => {
                 <!--  Searchinput  -->
                 <input
                   type="text"
+                  :value="searchValue"
+                  @input="onSearchInput"
+                  @keydown.enter="onSearchEnter"
                   placeholder="Keress éttermek között..."
-                  class="ml-4 w-2/4 rounded-3xl bg-gray-700 place-self-center px-3 py-2 text-sm text-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-gray-800 focus:w-3/4 transition-all duration-200 ease-out"
+                  class="w-full rounded-3xl bg-gray-700 px-3 py-2 text-sm text-gray-300 transition-all duration-200 ease-out focus:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-400 sm:max-w-md sm:justify-self-center"
                 />
                 <div
-                  class="mt-auto mb-auto px-3 py-2 text-sm w-auto flex flex-row gap-2 place-self-end"
+                  class="flex w-full flex-wrap items-center justify-end gap-2 px-0 py-1 text-sm sm:col-span-2 sm:px-3 lg:col-span-1"
                 >
-                  <button
-                    @click="openModal('login')"
-                    class="bg-black hover:bg-gray-800 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-gray-400/50"
+                  <BasketModal />
+                  <template v-if="!isLoggedIn">
+                    <button
+                      @click="openModal('login')"
+                      class="bg-black hover:bg-gray-800 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-gray-400/50"
+                    >
+                      Bejelentkezés
+                    </button>
+                    <button
+                      @click="openModal('register')"
+                      class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-orange-400/50"
+                    >
+                      Regisztráció
+                    </button>
+                  </template>
+
+                  <div
+                    v-else
+                    ref="profileMenuRef"
+                    class="relative flex flex-wrap items-center justify-end gap-2"
                   >
-                    Bejelentkezés
-                  </button>
-                  <button
-                    @click="openModal('register')"
-                    class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-orange-400/50"
-                  >
-                    Regisztráció
-                  </button>
-                  <!-- kívülről jövő komponensek helye (pl. kosár, szűrő) -->
+                    <span
+                      class="hidden max-w-44 truncate text-emerald-300 font-semibold md:inline-block"
+                    >
+                      Bejelentkezve: {{ userName }}
+                    </span>
+                    <button
+                      @click.stop="toggleProfileMenu"
+                      class="bg-gray-800 hover:bg-gray-700 cursor-pointer text-white font-bold py-2 px-4 rounded transition-all duration-200"
+                    >
+                      Profil
+                    </button>
+
+                    <div
+                      v-if="isProfileMenuOpen"
+                      class="absolute right-0 top-12 min-w-48 rounded-xl border border-gray-700 bg-gray-900 p-2 shadow-xl z-50"
+                    >
+                      <p class="px-2 py-1 text-xs text-gray-400">
+                        {{ userRole }}
+                      </p>
+                      <button
+                        v-if="userRole === 'ADMIN' || userRole === 'PENZTAROS'"
+                        @click="goToAdmin"
+                        class="w-full text-left px-2 py-2 rounded-lg hover:bg-gray-800 text-amber-300 font-semibold transition-colors"
+                      >
+                        Admin / rendeléskezelés
+                      </button>
+                      <button
+                        @click="logout"
+                        class="w-full text-left px-2 py-2 rounded-lg text-red-400 font-bold hover:bg-gray-800 transition-colors"
+                      >
+                        Kijelentkezés
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="hidden sm:ml-6 sm:block">
@@ -154,9 +314,9 @@ const isDeliveryPage = () => {
         </DisclosurePanel>
       </Disclosure>
       <div class="bg-black text-white p-4 min-h-screen w-full">
-        <div class="items-center justify-center flex bg-black w-full h-1/8">
-          <div class="bg-black h-full w-2/5">
-            <ul class="items-center justify-center flex">
+        <div class="flex w-full items-center justify-center bg-black">
+          <div class="h-full w-full bg-black">
+            <ul class="flex flex-wrap items-center justify-center gap-2">
               <li
                 class="bg-orange-900 hover:bg-orange-700 cursor-pointer text-white font-bold py-2 mr-2 px-4 rounded-4xl transition-all duration-200 hover:scale-105 active:scale-95 hover:shadow-lg hover:shadow-orange-400/50"
                 @click="navigateTo('home')"
@@ -173,50 +333,44 @@ const isDeliveryPage = () => {
           </div>
         </div>
         <div class="flex flex-col items-center justify-between mt-8 mb-4">
-          //Kosármodal elkészítése és helyezése a navbarba
           <div class="flex flex-col items-end gap-2 w-full">
             <FilterModal />
-            <BasketModal />
           </div>
           <RouterView />
         </div>
       </div>
     </div>
     <footer
-      class="bg-black border-t-2 border-t-amber-400 text-white p-8 grid grid-cols-6 gap-4"
+      class="grid grid-cols-1 gap-6 border-t-2 border-t-amber-400 bg-black p-6 text-white sm:grid-cols-2 lg:grid-cols-5"
     >
-      <RouterLink to="/" class="mx-auto mb-8 w-auto h-auto">
+      <RouterLink to="/" class="mx-auto w-auto h-auto lg:mx-0">
         <div>
-          <img src="/images/logo.png" alt="Logo" class="h-20 w-20" /><br />
-          <p>Készítették: A Feláldozhatók</p>
+          <img
+            src="/images/logo.png"
+            alt="Logo"
+            class="mx-auto h-20 w-20 lg:mx-0"
+          /><br />
+          <p class="text-center lg:text-left">Készítették: A Feláldozhatók</p>
         </div>
       </RouterLink>
-      <div>
+      <div class="text-center lg:text-left">
         <h1 class="text-l font-bold mb-3">Legyél LightningDelivery partner</h1>
         <RouterLink to="/recommend" class="hover:underline"
           >Kiszállítóként</RouterLink
         >
       </div>
-      <div>
+      <div class="text-center lg:text-left">
         <h1 class="text-l font-bold mb-3">Cég</h1>
         <RouterLink to="/about" class="hover:underline">Rólunk</RouterLink>
       </div>
-      <div>
+      <div class="text-center lg:text-left">
         <h1 class="text-l font-bold mb-3">Szolgáltatások</h1>
         <RouterLink to="/delivery" class="hover:underline"
           >Kiszállítás</RouterLink
         >
       </div>
-      <div>
-        <h1 class="text-l font-bold mb-3">Hasznos linkek</h1>
-        <a
-          href="https://www.gyakorikerdesek.hu/"
-          target="_blank"
-          class="hover:underline"
-          >Gyakori kérdések</a
-        >
-      </div>
-      <div>
+      <!-- Removed 'Hasznos linkek' column as requested -->
+      <div class="text-center lg:text-left">
         <h1 class="text-l font-bold mb-3">Kövess minket</h1>
         <!-- <RouterLink
           to="https://www.instagram.com/lightning_delivery67/"
@@ -235,7 +389,8 @@ const isDeliveryPage = () => {
           target="_blank"
           class="hover:underline"
           >Instagram</a
-        ><br />
+        >
+        <br />
         <a
           href="https://www.facebook.com/profile.php?id=61567660715732&locale=hu_HU"
           target="_blank"
